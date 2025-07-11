@@ -1,7 +1,7 @@
-package com.couple.menu.mapper;
+package com.menu.menu.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.couple.menu.entity.MenuShare;
+import com.menu.menu.entity.MenuShare;
 
 public interface MenuShareMapper extends BaseMapper<MenuShare> {
 }

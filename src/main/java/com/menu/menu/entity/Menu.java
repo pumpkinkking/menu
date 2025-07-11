@@ -68,6 +68,13 @@ public class Menu {
      */
     @TableField("share_count")
     private Integer shareCount;
+
+    /**
+     * 获取分享次数
+     */
+    public Integer getShareCount() {
+        return shareCount;
+    }
     
     /**
      * 创建时间
@@ -87,4 +94,15 @@ public class Menu {
      */
     @TableField("is_deleted")
     private Integer isDeleted;
+
+    /**
+     * 手动添加的setter方法，用于测试Lombok是否正常工作
+     */
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 }

@@ -1,4 +1,4 @@
-package com.couple.menu.vo;
+package com.menu.menu.vo;
 
 import lombok.Data;
 import java.time.LocalDateTime;

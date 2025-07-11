@@ -1,7 +1,7 @@
-package com.couple.menu.vo;
+package com.menu.menu.vo;
 
-import com.couple.menu.entity.MenuIngredient;
-import com.couple.menu.entity.MenuStep;
+import com.menu.menu.entity.MenuIngredient;
+import com.menu.menu.entity.MenuStep;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;

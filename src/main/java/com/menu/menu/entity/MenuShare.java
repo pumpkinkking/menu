@@ -47,4 +47,11 @@ public class MenuShare {
      */
     @TableField("create_time")
     private LocalDateTime createTime;
+
+    /**
+     * 手动添加的setter方法，解决Lombok可能未生成的问题
+     */
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 }

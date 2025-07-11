@@ -13,7 +13,7 @@ spring:
 #    port: 5672
 #    username: guest
 #    password: guest
-mybatis:
+mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     # 控制台日志配置

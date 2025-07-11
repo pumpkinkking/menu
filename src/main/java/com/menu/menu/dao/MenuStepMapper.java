@@ -1,7 +1,7 @@
-package com.couple.menu.mapper;
+package com.menu.menu.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.couple.menu.entity.MenuStep;
+import com.menu.menu.entity.MenuStep;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 

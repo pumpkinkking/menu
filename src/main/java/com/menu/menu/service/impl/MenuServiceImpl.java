@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.menu.menu.entity.*;
 import com.menu.menu.mapper.*;
+import com.menu.menu.dao.*;
 import com.menu.menu.service.MenuService;
 import com.menu.menu.vo.MenuDetailVO;
 import com.menu.menu.vo.MenuVO;
@@ -271,6 +272,57 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         Page<Menu> menuPage = new Page<>(pageNum, pageSize);
         menuPage.setRecords(menus);
         menuPage.setTotal(menus.size());
+        return convertToMenuVOPage(menuPage);
+    }
+
+    /**
+     * 分享餐单
+     * 记录分享记录并更新餐单分享次数
+     * @param menuId 餐单ID
+     * @param userId 用户ID
+     * @param platform 分享平台
+     * @return boolean 分享是否成功
+     */
+    @Override
+    @Transactional
+    public boolean shareMenu(Long menuId, Long userId, String platform) {
+        // 检查餐单是否存在
+        Menu menu = menuMapper.selectById(menuId);
+        if (menu == null || menu.getIsDeleted() == 1) {
+            return false;
+        }
+
+        // 记录分享记录
+        MenuShare share = new MenuShare();
+        share.setMenuId(menuId);
+        share.setUserId(userId);
+        share.setCreateTime(LocalDateTime.now());
+        menuShareMapper.insert(share);
+
+        // 更新餐单分享次数
+        menu.setShareCount(menu.getShareCount() + 1);
+        menuMapper.updateById(menu);
+
+        return true;
+    }
+
+    /**
+     * 获取用户创建的餐单
+     * 查询用户创建的所有餐单并分页返回
+     * @param userId 用户ID
+     * @param pageNum 页码
+     * @param pageSize 每页条数
+     * @return IPage<MenuVO> 分页的用户创建餐单视图对象列表
+     */
+    @Override
+    public IPage<MenuVO> getUserCreatedMenus(Long userId, int pageNum, int pageSize) {
+        Page<Menu> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId)
+                    .eq("is_deleted", 0)
+                    .orderByDesc("create_time");
+        
+        IPage<Menu> menuPage = menuMapper.selectPage(page, queryWrapper);
         return convertToMenuVOPage(menuPage);
     }
 

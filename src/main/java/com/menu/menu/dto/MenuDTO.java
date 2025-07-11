@@ -1,7 +1,7 @@
-package com.couple.menu.dto;
+package com.menu.menu.dto;
 
-import com.couple.menu.entity.MenuIngredient;
-import com.couple.menu.entity.MenuStep;
+import com.menu.menu.entity.MenuIngredient;
+import com.menu.menu.entity.MenuStep;
 import lombok.Data;
 import java.util.List;
 
