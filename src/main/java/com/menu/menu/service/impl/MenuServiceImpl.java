@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.menu.menu.entity.*;
 import com.menu.menu.mapper.*;
-import com.menu.menu.dao.*;
 import com.menu.menu.service.MenuService;
 import com.menu.menu.vo.MenuDetailVO;
 import com.menu.menu.vo.MenuVO;
@@ -56,6 +55,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         Menu menu = new Menu();
         BeanUtils.copyProperties(menuDTO, menu);
         menu.setUserId(userId);
+        menu.setCoverImageUrl(menuDTO.getCoverImageUrl());
+        menu.setThumbnailUrl(menuDTO.getThumbnailUrl());
         menu.setViewCount(0);
         menu.setCollectCount(0);
         menu.setShareCount(0);

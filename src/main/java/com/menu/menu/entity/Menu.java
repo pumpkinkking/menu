@@ -36,6 +36,12 @@ public class Menu {
      */
     @TableField("cover_image_url")
     private String coverImageUrl;
+
+    /**
+     * 封面缩略图URL
+     */
+    @TableField("thumbnail_url")
+    private String thumbnailUrl;
     
     /**
      * 分类ID

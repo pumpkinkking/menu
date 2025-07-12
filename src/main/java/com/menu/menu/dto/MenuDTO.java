@@ -10,6 +10,7 @@ public class MenuDTO {
     private String name;
     private String description;
     private String coverImageUrl;
+    private String thumbnailUrl;
     private Long categoryId;
     private List<MenuIngredient> ingredients;
     private List<MenuStep> steps;

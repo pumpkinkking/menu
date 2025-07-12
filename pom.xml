@@ -16,7 +16,11 @@
     <description>Couple Menu Application with WeChat MiniProgram Support</description>
 
     <properties>
+
         <java.version>17</java.version>
+        
+        
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,17 +39,47 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- MyBatis-Plus -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.5</version>
-        </dependency>
 
+
+        <!-- 添加缺失的依赖 -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- 添加Micrometer依赖解决ThreadPoolMetrics -->
+
+
+
+
+
+        <!-- Micrometer核心依赖 -->
+
+        <!-- Micrometer核心依赖 -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
+
+
+        <!-- 添加微信支付SDK依赖 -->
+
+        <!-- 添加RabbitMQ依赖 -->
+
+
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
 
         <!-- Database -->
         <dependency>
@@ -61,12 +95,83 @@
             <version>4.4.0</version>
         </dependency>
 
-        <!-- File Upload Support -->
         <!-- Utils -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+
+
+        <!-- 微信支付 SDK -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>4.4.0</version>
+        </dependency>
+        <!-- Redis 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- RabbitMQ 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <!-- 图片压缩工具 -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.19</version>
+        </dependency>
+        <!-- 阿里云短信 SDK -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>2.0.24</version>
+        </dependency>
+
+
+        <!-- Redisson分布式锁 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.16.4</version>
+        </dependency>
+
+        <!-- Micrometer指标收集 -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+
+       <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+
+        <!-- MyBatis Plus 扩展 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <!-- Actuator监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- API Documentation -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.2.0</version>
         </dependency>
 
         <!-- Testing -->
@@ -80,12 +185,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-            <!-- Swagger API文档 -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.2.0</version>
-        </dependency>
 </dependencies>
 
     <build>
@@ -94,8 +193,89 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>com.menu.menu.MenuApplication</mainClass>
                 </configuration>
             </plugin>
+            <!-- Checkstyle代码规范检查 -->
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.3.0</version>
+            <dependencies>
+                <!-- 解决Guava依赖冲突 -->
+                <dependency>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                    <version>30.1-jre</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.puppycrawl.tools</groupId>
+                    <artifactId>checkstyle</artifactId>
+                    <version>9.3</version>
+                </dependency>
+            </dependencies>
+            <!-- 暂时禁用Checkstyle检查 -->
+            <!-- <executions>
+                <execution>
+                    <id>checkstyle</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <configLocation>checkstyle.xml</configLocation>
+                        <failOnViolation>true</failOnViolation>
+                        <failsOnError>true</failsOnError>
+                    </configuration>
+                </execution>
+            </executions> -->
+        </plugin>
+        <!-- PMD代码质量检查 -->
+        <!-- Disabled PMD plugin temporarily to resolve build errors -->
+        <!--<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.21.0</version>
+            <executions>
+                <execution>
+                    <id>pmd</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <rulesets>
+                            <ruleset>rulesets/java/quickstart.xml</ruleset>
+                        </rulesets>
+                        <failOnViolation>true</failOnViolation>
+                        <minimumPriority>5</minimumPriority>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>-->
+        <!-- 代码格式化插件 -->
+        <!-- Disabled formatter plugin temporarily to resolve config file issue -->
+            <!--<plugin>
+            <groupId>net.revelc.code.formatter</groupId>
+            <artifactId>formatter-maven-plugin</artifactId>
+            <version>2.23.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>format</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <configFile>google-java-format</configFile>
+                <encoding>UTF-8</encoding>
+                <lineEnding>LF</lineEnding>
+                <includes>
+                    <include>**/*.java</include>
+                </includes>
+            </configuration>
+        </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

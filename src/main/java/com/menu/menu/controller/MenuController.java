@@ -3,15 +3,21 @@ package com.menu.menu.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.menu.menu.common.Result;
 import com.menu.menu.dto.MenuDTO;
+import com.menu.menu.service.FileUploadService;
 import com.menu.menu.service.MenuService;
 import com.menu.menu.vo.MenuDetailVO;
 import com.menu.menu.vo.MenuVO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 餐单管理控制器
@@ -24,6 +30,52 @@ public class MenuController {
 
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private FileUploadService fileUploadService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * 初始化菜单图片上传
+     */
+    @PostMapping("/image/initialize")
+    @Operation(summary = "初始化菜单图片上传")
+    public Result<String> initializeMenuImageUpload(
+            @RequestParam Long userId,
+            @RequestParam String fileName) {
+        String uploadId = fileUploadService.initializeUpload(userId, fileName);
+        stringRedisTemplate.opsForValue().set("upload:menu:" + uploadId, userId.toString(), 24, TimeUnit.HOURS);
+        return Result.success(uploadId);
+    }
+
+    /**
+     * 上传菜单图片分片
+     */
+    @PostMapping("/image/chunk")
+    @Operation(summary = "上传菜单图片分片")
+    public Result<Void> uploadMenuImageChunk(
+            @RequestParam String uploadId,
+            @RequestParam int chunkNumber,
+            @RequestParam MultipartFile chunkFile) {
+        fileUploadService.uploadChunk(uploadId, chunkNumber, chunkFile);
+        return Result.success();
+    }
+
+    /**
+     * 完成菜单图片上传并生成缩略图
+     */
+    @PostMapping("/image/complete")
+    @Operation(summary = "完成菜单图片上传")
+    public Result<Map<String, String>> completeMenuImageUpload(
+            @RequestParam String uploadId,
+            @RequestParam(defaultValue = "200") int thumbnailWidth,
+            @RequestParam(defaultValue = "200") int thumbnailHeight) {
+        Map<String, String> urls = fileUploadService.completeMenuUpload(uploadId, thumbnailWidth, thumbnailHeight);
+        stringRedisTemplate.delete("upload:menu:" + uploadId);
+        return Result.success(urls);
+    }
 
     /**
      * 上传餐单

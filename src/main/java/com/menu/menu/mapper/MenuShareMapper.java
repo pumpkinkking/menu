@@ -1,4 +1,4 @@
-package com.menu.menu.dao;
+package com.menu.menu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.menu.menu.entity.MenuShare;
