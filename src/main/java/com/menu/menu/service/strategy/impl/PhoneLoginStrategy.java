@@ -1,5 +1,8 @@
 package com.menu.menu.service.strategy.impl;
 
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import me.chanjar.weixin.common.error.WxErrorException;
+
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.menu.menu.entity.User;
@@ -33,7 +36,8 @@ public class PhoneLoginStrategy implements LoginStrategy {
                 throw new RuntimeException("用户不存在");
             }
 
-            String phone = wxMaService.getUserService().getPhoneNoInfo(user.getSessionKey(), encryptedData, iv);
+            WxMaPhoneNumberInfo phoneInfo = wxMaService.getUserService().getPhoneNoInfo(user.getSessionKey(), encryptedData, iv);
+            String phone = phoneInfo.getPhoneNumber();
             user.setPhone(phone);
             userMapper.updateById(user);
 
@@ -42,7 +46,7 @@ public class PhoneLoginStrategy implements LoginStrategy {
             loginVO.setToken(token);
             loginVO.setUserId(user.getId());
             return loginVO;
-        } catch (WxErrorException e) {
+        } catch (Exception e) {
             throw new RuntimeException("手机号登录失败: " + e.getMessage());
         }
     }

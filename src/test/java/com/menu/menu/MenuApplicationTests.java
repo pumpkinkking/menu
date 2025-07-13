@@ -1,4 +1,4 @@
-package com.menu;
+package com.menu.menu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

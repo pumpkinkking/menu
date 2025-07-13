@@ -39,7 +39,7 @@ public class WxPayStrategy implements PayStrategy {
         // 订单状态更新逻辑
         String outTradeNo = result.getOutTradeNo();
         String transactionId = result.getTransactionId();
-        String totalFee = result.getTotalFee();
+        String totalFee = String.valueOf(result.getTotalFee());
 
         // TODO: 更新订单状态为已支付
 
