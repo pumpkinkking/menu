@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 负责处理餐单相关的HTTP请求，包括餐单上传、查询、收藏、分享等功能
  */
 @RestController
-@RequestMapping("/api/menus")
+@RequestMapping("/menus")
 @Tag(name = "餐单管理")
 public class MenuController {
 

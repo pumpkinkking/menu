@@ -12,7 +12,7 @@ import java.util.List;
  * 计划模块控制器
  */
 @RestController
-@RequestMapping("/api/plans")
+@RequestMapping("/plans")
 public class PlanController {
     @Autowired
     private PlanService planService;
@@ -20,7 +20,7 @@ public class PlanController {
     /**
      * 获取计划列表
      */
-    @GetMapping
+    @GetMapping("/listPlans")
     public Result listPlans() {
         List<Plan> plans = planService.listPlans();
         return Result.success(plans);
@@ -29,7 +29,7 @@ public class PlanController {
     /**
      * 创建新计划
      */
-    @PostMapping
+    @PostMapping("/createPlan")
     public Result createPlan(@Valid @RequestBody Plan plan) {
         boolean success = planService.createPlan(plan);
         return success ? Result.success("计划创建成功") : Result.error("计划创建失败");

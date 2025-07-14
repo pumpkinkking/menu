@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.menu.menu.mapper.UserMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.menu.menu.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, name, email, phone, status, created_time, updated_time
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from user where id = #{id}
+    </select>
+
+    <!-- 根据用户名查询 -->
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from user where username = #{username}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from user
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.menu.menu.entity.User">
+        insert into user (username, password, name, email, phone, status, created_time, updated_time)
+        values (#{username}, #{password}, #{name}, #{email}, #{phone}, #{status}, now(), now())
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.menu.menu.entity.User">
+        update user
+        set username = #{username},
+            password = #{password},
+            name = #{name},
+            email = #{email},
+            phone = #{phone},
+            status = #{status},
+            updated_time = now()
+        where id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+</mapper>

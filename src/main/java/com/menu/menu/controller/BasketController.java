@@ -12,14 +12,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/basket")
+@RequestMapping("/basket")
 @Tag(name = "菜篮子管理")
 public class BasketController {
 
     @Autowired
     private BasketService basketService;
 
-    @GetMapping
+    @GetMapping("/getBasketItems")
     @Operation(summary = "获取菜篮子列表")
     public Result<List<BasketVO>> getBasketItems(HttpServletRequest request) {
         Long userId = getCurrentUserId(request);
@@ -27,7 +27,7 @@ public class BasketController {
         return Result.success(basketItems);
     }
 
-    @PostMapping
+    @PostMapping("/addToBasket")
     @Operation(summary = "添加食材到菜篮子")
     public Result<Long> addToBasket(@RequestBody BasketDTO basketDTO, HttpServletRequest request) {
         Long userId = getCurrentUserId(request);

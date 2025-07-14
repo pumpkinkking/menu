@@ -17,7 +17,7 @@ import java.util.List;
  * 计划实体类
  */
 @Data
-@TableName("t_plan")
+@TableName("plan")
 public class Plan {
     @TableId(type = IdType.AUTO)
     private Long id;

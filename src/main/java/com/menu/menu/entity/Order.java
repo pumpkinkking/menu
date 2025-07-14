@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@TableName("t_order")
+@TableName("order")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 

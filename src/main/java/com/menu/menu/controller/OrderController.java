@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/orders")
 @Tag(name = "订单管理")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/getOrders")
     @Operation(summary = "获取订单列表")
     public Result<List<OrderVO>> getOrders(HttpServletRequest request) {
         Long userId = getCurrentUserId(request);
@@ -28,7 +28,7 @@ public class OrderController {
         return Result.success(orders);
     }
 
-    @PostMapping
+    @PostMapping("/createOrder")
     @Operation(summary = "创建订单")
     public Result<Long> createOrder(@RequestBody OrderDTO orderDTO, HttpServletRequest request) {
         Long userId = getCurrentUserId(request);

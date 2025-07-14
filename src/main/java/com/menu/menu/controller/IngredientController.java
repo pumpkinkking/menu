@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ingredients")
+@RequestMapping("/ingredients")
 @Tag(name = "食材管理")
 public class IngredientController {
 
     @Autowired
     private IngredientService ingredientService;
 
-    @GetMapping
+    @GetMapping("/getIngredients")
     @Operation(summary = "获取食材列表")
     public Result<List<IngredientVO>> getIngredients(HttpServletRequest request) {
         Long userId = getCurrentUserId(request);
@@ -28,7 +28,7 @@ public class IngredientController {
         return Result.success(ingredients);
     }
 
-    @PostMapping
+    @PostMapping("/addIngredient")
     @Operation(summary = "添加食材")
     public Result<Long> addIngredient(@RequestBody IngredientDTO ingredientDTO, HttpServletRequest request) {
         Long userId = getCurrentUserId(request);

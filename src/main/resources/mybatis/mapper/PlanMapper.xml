@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.menu.menu.mapper.PlanMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.menu.menu.entity.Plan">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, name, start_time, end_time, status, description, created_time, updated_time
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from plan where id = #{id}
+    </select>
+
+    <!-- 根据用户ID查询 -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from plan where user_id = #{userId}
+    </select>
+
+    <!-- 根据状态查询 -->
+    <select id="selectByStatus" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from plan where status = #{status}
+    </select>
+
+    <!-- 查询所有计划 -->
+    <select id="listPlans" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from plan
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.menu.menu.entity.Plan">
+        insert into plan (user_id, name, start_time, end_time, status, description, created_time, updated_time)
+        values (#{userId}, #{name}, #{startTime}, #{endTime}, #{status}, #{description}, now(), now())
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.menu.menu.entity.Plan">
+        update plan
+        set user_id = #{userId},
+            name = #{name},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            status = #{status},
+            description = #{description},
+            updated_time = now()
+        where id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        delete from plan where id = #{id}
+    </delete>
+</mapper>

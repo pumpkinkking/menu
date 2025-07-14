@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
