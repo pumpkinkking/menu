@@ -4,19 +4,22 @@ spring:
     username: lloyd
     password: Qly.shuai666
     url: jdbc:mysql://106.52.97.177:3306/menu?characterEncoding=utf-8&useSSL=false
-  redis:
+  data.redis:
     host: 106.52.97.177
     port: 6379
     password: Qly.shuai666
-wx:
-  miniapp:
-    appid: your_appid_here
-    secret: your_secret_here
- rabbitmq:
+  rabbitmq:
    addresses: 106.52.97.177
    port: 5672
    username: admin
    password: admin
+wx:
+  miniapp:
+    appid: your_appid_here
+    secret: your_secret_here
+jwt:
+  secret: 012345678901234567890123456789012345678901234567890123456789
+  expiration: 86400000
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

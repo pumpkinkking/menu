@@ -16,6 +16,7 @@ public class User {
     private String sessionKey;
     private String username;
     private String avatar;
+    private String roles;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

@@ -11,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User> {
 
     List<User> selectHotUsers(int i);
+
+    User findByUsername(String username);
 }

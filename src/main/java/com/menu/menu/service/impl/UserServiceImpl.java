@@ -1,9 +1,9 @@
-package com.menu.menu.service;
+package com.menu.menu.service.impl;
 
 import com.menu.menu.entity.User;
 import com.menu.menu.exception.BusinessException;
 import com.menu.menu.mapper.UserMapper;
-import com.menu.menu.service.FileUploadService;
+import com.menu.menu.service.UserService;
 import com.menu.menu.service.strategy.LoginStrategy;
 import com.menu.menu.service.strategy.LoginStrategyFactory;
 import com.menu.menu.vo.LoginVO;
@@ -13,15 +13,17 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Value;
-import java.io.File;
-import java.io.IOException;
-import org.springframework.web.multipart.MultipartFile;
-import net.coobird.thumbnailator.Thumbnails;
+
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    LoginStrategyFactory loginStrategyFactory;
+
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public boolean updateAvatar(Long userId, String avatarPath) {
@@ -34,19 +36,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateById(user) > 0;
     }
 
-    private final LoginStrategyFactory loginStrategyFactory;
-    private final UserMapper userMapper;
-    private final StringRedisTemplate stringRedisTemplate;
-
-    @Value("${upload.path}")
+    @Value("${app.upload.path}")
     private String uploadPath;
 
-    @Autowired
-    public UserServiceImpl(LoginStrategyFactory loginStrategyFactory, UserMapper userMapper, StringRedisTemplate stringRedisTemplate) {
-        this.loginStrategyFactory = loginStrategyFactory;
-        this.userMapper = userMapper;
-        this.stringRedisTemplate = stringRedisTemplate;
-    }
 
     @Override
     public LoginVO wechatLogin(String code) {
@@ -77,7 +69,7 @@ public class UserServiceImpl implements UserService {
         return strategy.login(params);
     }
 
-        @Override
+    @Override
     public void getUserById(Long userId) {
         userMapper.selectById(userId);
     }

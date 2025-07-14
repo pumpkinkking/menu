@@ -1,7 +1,7 @@
 package com.menu.menu.service.strategy.impl;
 
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import me.chanjar.weixin.common.error.WxErrorException;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,16 +9,16 @@ import com.menu.menu.entity.User;
 import com.menu.menu.mapper.UserMapper;
 import com.menu.menu.service.strategy.LoginStrategy;
 import com.menu.menu.vo.LoginVO;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.UUID;
 
-@Component
-public class PhoneLoginStrategy implements LoginStrategy {
+import lombok.extern.slf4j.Slf4j;
 
-    @Autowired
+  @Component
+  @Slf4j
+  public class PhoneLoginStrategy implements LoginStrategy { @Autowired
     private WxMaService wxMaService;
 
     @Autowired
@@ -26,12 +26,17 @@ public class PhoneLoginStrategy implements LoginStrategy {
 
     @Override
     public LoginVO login(Map<String, Object> params) {
-        String encryptedData = (String) params.get("encryptedData");
-        String iv = (String) params.get("iv");
-        Long userId = (Long) params.get("userId");
-
         try {
-            User user = userMapper.selectById(userId);
+            String code = (String) params.get("code");
+            String encryptedData = (String) params.get("encryptedData");
+            String iv = (String) params.get("iv");
+            
+            // 使用code获取会话信息
+            WxMaJscode2SessionResult sessionResult = wxMaService.getUserService().getSessionInfo(code);
+            String openid = sessionResult.getOpenid();
+            
+            // 根据openid查询用户
+            User user = userMapper.selectOne(new QueryWrapper<User>().eq("openid", openid));
             if (user == null) {
                 throw new RuntimeException("用户不存在");
             }
