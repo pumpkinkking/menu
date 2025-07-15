@@ -15,25 +15,18 @@ import java.time.LocalDateTime;
 @TableName("menu_collection")
 public class MenuCollection {
     /**
-     * 收藏ID
-     * 自增主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    
-    /**
      * 用户ID
      * 收藏者ID，关联用户表的主键
      */
-    @TableField("user_id")
-    private Long userId;
+    @TableId(value = "user_id", type = IdType.INPUT)
+    private String userId;
     
     /**
      * 餐单ID
      * 被收藏餐单的ID，关联menu表的主键
      */
-    @TableField("menu_id")
-    private Long menuId;
+    @TableId(value = "menu_id", type = IdType.INPUT)
+    private Integer menuId;
     
     /**
      * 收藏时间

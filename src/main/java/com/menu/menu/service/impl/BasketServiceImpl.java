@@ -39,7 +39,7 @@ public class BasketServiceImpl implements BasketService {
             existingItem.setQuantity(existingItem.getQuantity() + basketDTO.getQuantity());
             existingItem.setUpdateTime(LocalDateTime.now());
             basketMapper.updateById(existingItem);
-            return existingItem.getId();
+            return existingItem.getBasketId();
         }
 
         // 不存在则新增
@@ -49,7 +49,7 @@ public class BasketServiceImpl implements BasketService {
         basket.setCreateTime(LocalDateTime.now());
         basket.setUpdateTime(LocalDateTime.now());
         basketMapper.insert(basket);
-        return basket.getId();
+        return basket.getBasketId();
     }
 
     @Override

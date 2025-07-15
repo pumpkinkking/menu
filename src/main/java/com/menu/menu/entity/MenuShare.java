@@ -15,25 +15,18 @@ import java.time.LocalDateTime;
 @TableName("menu_share")
 public class MenuShare {
     /**
-     * 分享记录ID
-     * 自增主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    
-    /**
      * 餐单ID
      * 被分享餐单的ID，关联menu表的主键
      */
-    @TableField("menu_id")
-    private Long menuId;
+    @TableId(value = "menu_id", type = IdType.INPUT)
+    private Integer menuId;
     
     /**
      * 用户ID
      * 分享者ID，关联用户表的主键
      */
-    @TableField("user_id")
-    private Long userId;
+    @TableId(value = "user_id", type = IdType.INPUT)
+    private String userId;
     
     /**
      * 分享渠道

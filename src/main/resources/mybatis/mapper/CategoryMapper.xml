@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.menu.menu.mapper.CategoryMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.menu.menu.entity.Category">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        category_id, category_name, description, create_time, update_time
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from category where category_id = #{categoryId}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from category
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.menu.menu.entity.Category">
+        insert into category (category_name, description, create_time, update_time)
+        values (#{categoryName}, #{description}, now(), now())
+    </insert>
+
+    <!-- 更新 -->
+    <update id="updateById" parameterType="com.menu.menu.entity.Category">
+        update category
+        set category_name = #{categoryName},
+            description = #{description},
+            update_time = now()
+        where category_id = #{categoryId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        delete from category where category_id = #{categoryId}
+    </delete>
+</mapper>

@@ -87,7 +87,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             menuStepMapper.batchInsert(steps);
         }
 
-        return menu.getId();
+        return menu.getMenuId();
     }
 
     /**

@@ -32,7 +32,7 @@ public class IngredientServiceImpl implements IngredientService {
         BeanUtils.copyProperties(ingredientDTO, ingredient);
         ingredient.setUserId(userId);
         ingredientMapper.insert(ingredient);
-        return ingredient.getId();
+        return ingredient.getIngredientId();
     }
 
     @Override

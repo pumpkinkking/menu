@@ -1,22 +1,24 @@
 package com.menu.menu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("user")
+@TableName("sys_user")
 public class User {
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    private String openid;
-    private String phone;
-    private String sessionKey;
+    @TableId(type = IdType.INPUT)
+    private String userId;
+    @TableField("open_id")
+    private String openId;
+    @TableField("phone_num")
+    private String phoneNum;
     private String username;
-    private String avatar;
-    private String roles;
+    @TableField("avatar_url")
+    private String avatarUrl;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

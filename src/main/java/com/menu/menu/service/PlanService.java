@@ -16,7 +16,7 @@ public interface PlanService extends IService<Plan> {
     /**
      * 创建新计划
      */
-    boolean createPlan(Plan plan);
+    Long createPlan(Plan plan);
 
     /**
      * 更新计划

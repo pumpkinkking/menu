@@ -1,157 +1,161 @@
--- 测试数据脚本
--- 基于schema.sql生成，每张表约10条记录
-
-SET NAMES utf8mb4;
+-- 禁用外键检查，确保数据插入顺序不影响
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
--- 用户表测试数据
--- ----------------------------
-INSERT INTO `user` (`openid`, `phone`, `session_key`, `username`, `avatar`) VALUES
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2M', '13800138000', 'skey123456', '张三', 'https://example.com/avatar/1.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2N', '13900139000', 'skey234567', '李四', 'https://example.com/avatar/2.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2O', '13700137000', 'skey345678', '王五', 'https://example.com/avatar/3.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2P', '13600136000', 'skey456789', '赵六', 'https://example.com/avatar/4.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2Q', '13500135000', 'skey567890', '钱七', 'https://example.com/avatar/5.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2R', '13400134000', 'skey678901', '孙八', 'https://example.com/avatar/6.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2S', '13300133000', 'skey789012', '周九', 'https://example.com/avatar/7.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2T', '13200132000', 'skey890123', '吴十', 'https://example.com/avatar/8.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2U', '13100131000', 'skey901234', '郑十一', 'https://example.com/avatar/9.jpg'),
-('o6_bmjrPTlm6_2sgVt7hMZOPfL2V', '13000130000', 'skey012345', '王十二', 'https://example.com/avatar/10.jpg');
+-- 用户表 (sys_user) - 生成10条随机数据
+INSERT INTO sys_user (user_id, open_id, phone_num, username, avatar_url) VALUES
+('u1001', CONCAT('open_', UUID()), CONCAT('138', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1002', CONCAT('open_', UUID()), CONCAT('139', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1003', CONCAT('open_', UUID()), CONCAT('137', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1004', CONCAT('open_', UUID()), CONCAT('136', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1005', CONCAT('open_', UUID()), CONCAT('135', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1006', CONCAT('open_', UUID()), CONCAT('134', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1007', CONCAT('open_', UUID()), CONCAT('133', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1008', CONCAT('open_', UUID()), CONCAT('132', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1009', CONCAT('open_', UUID()), CONCAT('131', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg')),
+('u1010', CONCAT('open_', UUID()), CONCAT('130', FLOOR(RAND()*100000000)), CONCAT('用户', FLOOR(RAND()*1000)), CONCAT('https://avatar.com/', UUID(), '.jpg'));
 
--- ----------------------------
--- 食材表测试数据
--- ----------------------------
-INSERT INTO `ingredient` (`user_id`, `name`, `quantity`, `unit`, `location`, `freshness`) VALUES
-(1, '西红柿', 5, '个', '冰箱', '新鲜'),
-(1, '鸡蛋', 10, '个', '冰箱', '新鲜'),
-(1, '猪肉', 500, '克', '冰箱', '新鲜'),
-(2, '土豆', 3, '个', '阳台', '较新鲜'),
-(2, '牛肉', 300, '克', '冰箱', '新鲜'),
-(3, '青椒', 4, '个', '冰箱', '新鲜'),
-(3, '大米', 2000, '克', '橱柜', '干燥'),
-(4, '面条', 1000, '克', '橱柜', '干燥'),
-(5, '黄瓜', 3, '根', '冰箱', '新鲜'),
-(6, '白菜', 1, '棵', '阳台', '较新鲜');
+-- 食材表 (ingredient) - 生成10条随机数据
+INSERT INTO ingredient (user_id, name, quantity, unit, location, freshness, product_time) VALUES
+('u1001', '西红柿', FLOOR(RAND()*10)+1, '个', '冰箱', '新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY)),
+('u1002', '鸡蛋', FLOOR(RAND()*20)+1, '个', '冰箱', '新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY)),
+('u1003', '猪肉', FLOOR(RAND()*2000)+500, '克', '冰箱', '较新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*15) DAY)),
+('u1004', '白菜', FLOOR(RAND()*5)+1, '棵', '阳台', '新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*7) DAY)),
+('u1005', '土豆', FLOOR(RAND()*10)+1, '个', '阳台', '新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY)),
+('u1006', '青椒', FLOOR(RAND()*5)+1, '个', '冰箱', '新鲜', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*10) DAY)),
+('u1007', '大米', FLOOR(RAND()*5)+1, '千克', '橱柜', '干燥', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*90) DAY)),
+('u1008', '面条', FLOOR(RAND()*10)+1, '包', '橱柜', '干燥', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*60) DAY)),
+('u1009', '酱油', FLOOR(RAND()*2)+1, '瓶', '橱柜', '正常', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*180) DAY)),
+('u1010', '醋', FLOOR(RAND()*2)+1, '瓶', '橱柜', '正常', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*180) DAY));
 
--- ----------------------------
--- 购物车表测试数据
--- ----------------------------
-INSERT INTO `basket` (`user_id`, `ingredient_id`, `quantity`, `unit`) VALUES
-(1, 1, 2, '个'),
-(1, 2, 4, '个'),
-(2, 4, 2, '个'),
-(3, 6, 3, '个'),
-(3, 7, 500, '克'),
-(4, 8, 500, '克'),
-(5, 9, 2, '根'),
-(6, 10, 1, '棵'),
-(7, 3, 200, '克'),
-(8, 5, 200, '克');
+-- 餐单表 (menu) - 生成10条随机数据
+INSERT INTO menu (menu_name, description, cover_image_url, thumbnail_url, category_id, user_id, view_count, collect_count, share_count) VALUES
+('西红柿炒鸡蛋', '经典家常菜，营养丰富', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1001', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('红烧肉', '传统名菜，肥而不腻', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1002', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('鱼香肉丝', '川菜经典，酸甜可口', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1003', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('宫保鸡丁', '川菜代表，香辣下饭', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1004', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('麻婆豆腐', '川菜名菜，麻辣鲜香', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1005', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('清蒸鱼', '粤菜经典，鲜嫩可口', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1006', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('北京烤鸭', '京菜代表，外酥里嫩', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1007', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('水煮鱼', '川菜经典，麻辣开胃', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1008', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('回锅肉', '川菜名菜，香气扑鼻', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1009', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200)),
+('夫妻肺片', '川菜凉菜，麻辣鲜香', CONCAT('https://menu-img.com/', UUID(), '.jpg'), CONCAT('https://menu-img.com/thumb/', UUID(), '.jpg'), CONCAT('cat_', FLOOR(RAND()*10)+1), 'u1010', FLOOR(RAND()*1000), FLOOR(RAND()*500), FLOOR(RAND()*200));
 
--- ----------------------------
--- 餐单表测试数据
--- ----------------------------
-INSERT INTO `menu` (`name`, `description`, `cover_image_url`, `thumbnail_url`, `category_id`, `user_id`, `view_count`, `collect_count`, `share_count`) VALUES
-('西红柿炒鸡蛋', '经典家常菜，营养丰富', 'https://example.com/menu/1.jpg', 'https://example.com/menu/thumb/1.jpg', 1, 1, 120, 35, 12),
-('红烧肉', '传统名菜，肥而不腻', 'https://example.com/menu/2.jpg', 'https://example.com/menu/thumb/2.jpg', 2, 1, 230, 89, 45),
-('土豆炖牛肉', '营养美味的家常菜', 'https://example.com/menu/3.jpg', 'https://example.com/menu/thumb/3.jpg', 2, 2, 180, 56, 23),
-('青椒肉丝', '下饭神器', 'https://example.com/menu/4.jpg', 'https://example.com/menu/thumb/4.jpg', 1, 3, 156, 42, 18),
-('阳春面', '简单美味的主食', 'https://example.com/menu/5.jpg', 'https://example.com/menu/thumb/5.jpg', 3, 4, 98, 27, 9),
-('拍黄瓜', '清爽开胃的凉菜', 'https://example.com/menu/6.jpg', 'https://example.com/menu/thumb/6.jpg', 4, 5, 76, 15, 6),
-('醋溜白菜', '酸甜可口的家常菜', 'https://example.com/menu/7.jpg', 'https://example.com/menu/thumb/7.jpg', 1, 6, 110, 31, 14),
-('鱼香肉丝', '川菜经典', 'https://example.com/menu/8.jpg', 'https://example.com/menu/thumb/8.jpg', 2, 7, 205, 78, 36),
-('宫保鸡丁', '香辣可口', 'https://example.com/menu/9.jpg', 'https://example.com/menu/thumb/9.jpg', 2, 8, 178, 63, 29),
-('麻婆豆腐', '川菜代表', 'https://example.com/menu/10.jpg', 'https://example.com/menu/thumb/10.jpg', 1, 9, 143, 47, 21);
+-- 用户餐单表 (user_menu) - 生成10条随机数据
+INSERT INTO user_menu (user_id, menu_id, sort_order) VALUES
+('u1001', 1, FLOOR(RAND()*100)),
+('u1001', 2, FLOOR(RAND()*100)),
+('u1002', 3, FLOOR(RAND()*100)),
+('u1002', 4, FLOOR(RAND()*100)),
+('u1003', 5, FLOOR(RAND()*100)),
+('u1003', 6, FLOOR(RAND()*100)),
+('u1004', 7, FLOOR(RAND()*100)),
+('u1004', 8, FLOOR(RAND()*100)),
+('u1005', 9, FLOOR(RAND()*100)),
+('u1005', 10, FLOOR(RAND()*100));
 
--- ----------------------------
--- 餐单食材表测试数据
--- ----------------------------
-INSERT INTO `menu_ingredient` (`menu_id`, `name`, `quantity`, `unit`, `sort_order`) VALUES
-(1, '西红柿', '2', '个', 1),
-(1, '鸡蛋', '4', '个', 2),
-(1, '葱', '1', '根', 3),
-(2, '五花肉', '500', '克', 1),
-(2, '姜', '3', '片', 2),
-(3, '土豆', '2', '个', 1),
-(3, '牛肉', '300', '克', 2),
-(4, '青椒', '3', '个', 1),
-(4, '猪肉', '200', '克', 2),
-(5, '面条', '100', '克', 1);
+-- 菜篮子表 (basket) - 生成10条随机数据
+INSERT INTO basket (user_id, ingredient_id, menu_id, quantity, unit) VALUES
+('u1001', 1, 1, FLOOR(RAND()*5)+1, '个'),
+('u1001', 2, 1, FLOOR(RAND()*10)+1, '个'),
+('u1002', 3, 2, FLOOR(RAND()*500)+500, '克'),
+('u1003', 4, 3, FLOOR(RAND()*2)+1, '棵'),
+('u1004', 5, 4, FLOOR(RAND()*5)+1, '个'),
+('u1005', 6, 5, FLOOR(RAND()*3)+1, '个'),
+('u1006', 7, 6, FLOOR(RAND()*2)+1, '千克'),
+('u1007', 8, 7, FLOOR(RAND()*3)+1, '包'),
+('u1008', 9, 8, 1, '瓶'),
+('u1009', 10, 9, 1, '瓶');
 
--- ----------------------------
--- 餐单步骤表测试数据
--- ----------------------------
-INSERT INTO `menu_step` (`menu_id`, `content`, `image_url`, `sort_order`) VALUES
-(1, '西红柿切块', 'https://example.com/step/1-1.jpg', 1),
-(1, '鸡蛋打散', 'https://example.com/step/1-2.jpg', 2),
-(1, '热油炒鸡蛋', 'https://example.com/step/1-3.jpg', 3),
-(2, '五花肉切块焯水', 'https://example.com/step/2-1.jpg', 1),
-(2, '炒糖色', 'https://example.com/step/2-2.jpg', 2),
-(3, '土豆切块', 'https://example.com/step/3-1.jpg', 1),
-(3, '牛肉焯水', 'https://example.com/step/3-2.jpg', 2),
-(4, '青椒切丝', 'https://example.com/step/4-1.jpg', 1),
-(4, '猪肉切丝腌制', 'https://example.com/step/4-2.jpg', 2),
-(5, '煮面条', 'https://example.com/step/5-1.jpg', 1);
+-- 餐单食材表 (menu_ingredient) - 生成10条随机数据
+INSERT INTO menu_ingredient (menu_id, ingredient_id, ingredient_name, quantity, unit, sort_order) VALUES
+(1, 1, '西红柿', '2', '个', 1),
+(1, 2, '鸡蛋', '3', '个', 2),
+(2, 3, '猪肉', '500', '克', 1),
+(3, 4, '白菜', '1', '棵', 1),
+(4, 5, '土豆', '2', '个', 1),
+(5, 6, '青椒', '3', '个', 1),
+(6, 7, '大米', '1', '千克', 1),
+(7, 8, '面条', '1', '包', 1),
+(8, 9, '酱油', '1', '勺', 1),
+(9, 10, '醋', '1', '勺', 1);
 
--- ----------------------------
--- 餐单收藏表测试数据
--- ----------------------------
-INSERT INTO `menu_collection` (`user_id`, `menu_id`) VALUES
-(2, 1),
-(3, 1),
-(4, 2),
-(5, 3),
-(6, 4),
-(7, 5),
-(8, 6),
-(9, 7),
-(10, 8),
-(1, 9);
+-- 餐单步骤表 (menu_step) - 生成10条随机数据
+INSERT INTO menu_step (menu_id, content, image_url, sort_order) VALUES
+(1, '西红柿切块，鸡蛋打散', CONCAT('https://step-img.com/', UUID(), '.jpg'), 1),
+(1, '热锅倒油，倒入鸡蛋炒熟盛出', CONCAT('https://step-img.com/', UUID(), '.jpg'), 2),
+(2, '猪肉切块焯水', CONCAT('https://step-img.com/', UUID(), '.jpg'), 1),
+(2, '锅中倒油，放入冰糖炒出糖色', CONCAT('https://step-img.com/', UUID(), '.jpg'), 2),
+(3, '肉丝用料酒腌制', CONCAT('https://step-img.com/', UUID(), '.jpg'), 1),
+(3, '葱姜蒜爆香，放入肉丝翻炒', CONCAT('https://step-img.com/', UUID(), '.jpg'), 2),
+(4, '鸡肉切丁，用料酒腌制', CONCAT('https://step-img.com/', UUID(), '.jpg'), 1),
+(4, '花生米炸熟备用', CONCAT('https://step-img.com/', UUID(), '.jpg'), 2),
+(5, '豆腐切块焯水', CONCAT('https://step-img.com/', UUID(), '.jpg'), 1),
+(5, '锅中倒油，放入豆瓣酱炒香', CONCAT('https://step-img.com/', UUID(), '.jpg'), 2);
 
--- ----------------------------
--- 餐单分享表测试数据
--- ----------------------------
-INSERT INTO `menu_share` (`menu_id`, `user_id`, `share_channel`) VALUES
-(1, 1, 'WECHAT'),
-(2, 1, 'WEIBO'),
-(3, 2, 'WECHAT'),
-(4, 3, 'QQ'),
-(5, 4, 'WECHAT'),
-(6, 5, 'WEIBO'),
-(7, 6, 'WECHAT'),
-(8, 7, 'QQ'),
-(9, 8, 'WECHAT'),
-(10, 9, 'WEIBO');
+-- 餐单收藏表 (menu_collection) - 生成10条随机数据
+INSERT INTO menu_collection (user_id, menu_id) VALUES
+('u1001', 2),
+('u1001', 3),
+('u1002', 1),
+('u1002', 4),
+('u1003', 5),
+('u1003', 6),
+('u1004', 7),
+('u1004', 8),
+('u1005', 9),
+('u1005', 10);
 
--- ----------------------------
--- 订单表测试数据
--- ----------------------------
-INSERT INTO `order` (`order_no`, `user_id`, `date`, `status`, `total_price`) VALUES
-('ORD20231001001', 1, '2023-10-01', 'PAID', 88.00),
-('ORD20231001002', 2, '2023-10-01', 'PAID', 128.00),
-('ORD20231001003', 3, '2023-10-01', 'PAID', 68.00),
-('ORD20231001004', 4, '2023-10-01', 'PAID', 99.00),
-('ORD20231001005', 5, '2023-10-01', 'PAID', 158.00),
-('ORD20231001006', 6, '2023-10-01', 'PAID', 78.00),
-('ORD20231001007', 7, '2023-10-01', 'PAID', 108.00),
-('ORD20231001008', 8, '2023-10-01', 'PAID', 88.00),
-('ORD20231001009', 9, '2023-10-01', 'PAID', 138.00),
-('ORD20231001010', 10, '2023-10-01', 'PAID', 66.00);
+-- 餐单分享表 (menu_share) - 生成10条随机数据
+INSERT INTO menu_share (menu_id, user_id, share_channel) VALUES
+(1, 'u1001', 'wechat'),
+(2, 'u1002', 'wechat'),
+(3, 'u1003', 'qq'),
+(4, 'u1004', 'weibo'),
+(5, 'u1005', 'wechat'),
+(6, 'u1006', 'qq'),
+(7, 'u1007', 'wechat'),
+(8, 'u1008', 'weibo'),
+(9, 'u1009', 'wechat'),
+(10, 'u1010', 'qq');
 
--- ----------------------------
--- 计划表测试数据
--- ----------------------------
-INSERT INTO `plan` (`title`, `date`, `meals`) VALUES
-('周一 meal plan', '2023-10-09', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[1,4]},{"mealType":"DINNER","menuIds":[2]}]'),
-('周二 meal plan', '2023-10-10', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[3,4]},{"mealType":"DINNER","menuIds":[7]}]'),
-('周三 meal plan', '2023-10-11', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[1,6]},{"mealType":"DINNER","menuIds":[8]}]'),
-('周四 meal plan', '2023-10-12', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[4,6]},{"mealType":"DINNER","menuIds":[9]}]'),
-('周五 meal plan', '2023-10-13', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[1,3]},{"mealType":"DINNER","menuIds":[2]}]'),
-('周六 meal plan', '2023-10-14', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[4,6]},{"mealType":"DINNER","menuIds":[7]}]'),
-('周日 meal plan', '2023-10-15', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[1,3]},{"mealType":"DINNER","menuIds":[8]}]'),
-('下周一 meal plan', '2023-10-16', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[4,6]},{"mealType":"DINNER","menuIds":[9]}]'),
-('下周二 meal plan', '2023-10-17', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[1,3]},{"mealType":"DINNER","menuIds":[2]}]'),
-('下周三 meal plan', '2023-10-18', '[{"mealType":"BREAKFAST","menuIds":[5]},{"mealType":"LUNCH","menuIds":[4,6]},{"mealType":"DINNER","menuIds":[7]}]');
+-- 订单表 (order) - 生成10条随机数据
+INSERT INTO `order` (order_no, user_id, order_time, finish_time, status, total_price, notes) VALUES
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1001', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), '不要辣'),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1002', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), '多放香菜'),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1003', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), ''),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1004', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), NULL, 'pending', ROUND(RAND()*100+50, 2), '尽快送达'),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1005', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), ''),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1006', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), '少盐'),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1007', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), NULL, 'pending', ROUND(RAND()*100+50, 2), ''),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1008', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), '不要香菜'),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1009', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*29) DAY), 'completed', ROUND(RAND()*100+50, 2), ''),
+(CONCAT('ORD', DATE_FORMAT(NOW(), '%Y%m%d'), FLOOR(RAND()*10000)), 'u1010', DATE_SUB(NOW(), INTERVAL FLOOR(RAND()*30) DAY), NULL, 'pending', ROUND(RAND()*100+50, 2), '多放辣椒');
 
+-- 订单明细表 (order_detail) - 生成10条随机数据
+INSERT INTO order_detail (order_no, menu_id, menu_name, menu_price, quantity, subtotal) VALUES
+((SELECT order_no FROM `order` WHERE id = 1), 1, '西红柿炒鸡蛋', 28.00, '1', 28.00),
+((SELECT order_no FROM `order` WHERE id = 1), 2, '红烧肉', 48.00, '1', 48.00),
+((SELECT order_no FROM `order` WHERE id = 2), 3, '鱼香肉丝', 38.00, '1', 38.00),
+((SELECT order_no FROM `order` WHERE id = 3), 4, '宫保鸡丁', 36.00, '1', 36.00),
+((SELECT order_no FROM `order` WHERE id = 4), 5, '麻婆豆腐', 22.00, '1', 22.00),
+((SELECT order_no FROM `order` WHERE id = 5), 6, '清蒸鱼', 58.00, '1', 58.00),
+((SELECT order_no FROM `order` WHERE id = 6), 7, '北京烤鸭', 128.00, '1', 128.00),
+((SELECT order_no FROM `order` WHERE id = 7), 8, '水煮鱼', 68.00, '1', 68.00),
+((SELECT order_no FROM `order` WHERE id = 8), 9, '回锅肉', 38.00, '1', 38.00),
+((SELECT order_no FROM `order` WHERE id = 9), 10, '夫妻肺片', 42.00, '1', 42.00);
+
+-- 计划表 (plan) - 生成10条随机数据
+INSERT INTO plan (plan_date, meals, user_id) VALUES
+(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '[{"mealType":"breakfast","menuIds":[1,2]},{"mealType":"lunch","menuIds":[3,4]},{"mealType":"dinner","menuIds":[5,6]}]', 'u1001'),
+(DATE_ADD(CURDATE(), INTERVAL 2 DAY), '[{"mealType":"breakfast","menuIds":[7,8]},{"mealType":"lunch","menuIds":[9,10]},{"mealType":"dinner","menuIds":[1,2]}]', 'u1002'),
+(DATE_ADD(CURDATE(), INTERVAL 3 DAY), '[{"mealType":"breakfast","menuIds":[3,4]},{"mealType":"lunch","menuIds":[5,6]},{"mealType":"dinner","menuIds":[7,8]}]', 'u1003'),
+(DATE_ADD(CURDATE(), INTERVAL 4 DAY), '[{"mealType":"breakfast","menuIds":[9,10]},{"mealType":"lunch","menuIds":[1,2]},{"mealType":"dinner","menuIds":[3,4]}]', 'u1004'),
+(DATE_ADD(CURDATE(), INTERVAL 5 DAY), '[{"mealType":"breakfast","menuIds":[5,6]},{"mealType":"lunch","menuIds":[7,8]},{"mealType":"dinner","menuIds":[9,10]}]', 'u1005'),
+(DATE_ADD(CURDATE(), INTERVAL 6 DAY), '[{"mealType":"breakfast","menuIds":[2,3]},{"mealType":"lunch","menuIds":[4,5]},{"mealType":"dinner","menuIds":[6,7]}]', 'u1006'),
+(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '[{"mealType":"breakfast","menuIds":[8,9]},{"mealType":"lunch","menuIds":[10,1]},{"mealType":"dinner","menuIds":[2,3]}]', 'u1007'),
+(DATE_ADD(CURDATE(), INTERVAL 8 DAY), '[{"mealType":"breakfast","menuIds":[4,5]},{"mealType":"lunch","menuIds":[6,7]},{"mealType":"dinner","menuIds":[8,9]}]', 'u1008'),
+(DATE_ADD(CURDATE(), INTERVAL 9 DAY), '[{"mealType":"breakfast","menuIds":[10,1]},{"mealType":"lunch","menuIds":[2,3]},{"mealType":"dinner","menuIds":[4,5]}]', 'u1009'),
+(DATE_ADD(CURDATE(), INTERVAL 10 DAY), '[{"mealType":"breakfast","menuIds":[6,7]},{"mealType":"lunch","menuIds":[8,9]},{"mealType":"dinner","menuIds":[10,1]}]', 'u1010');
+
+-- 恢复外键检查
 SET FOREIGN_KEY_CHECKS = 1;

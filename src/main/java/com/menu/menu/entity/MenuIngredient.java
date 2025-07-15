@@ -14,28 +14,23 @@ import lombok.Data;
 @TableName("menu_ingredient")
 public class MenuIngredient {
     /**
-     * 食材ID
-     * 自增主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    
-    /**
      * 餐单ID
      * 关联menu表的主键
      */
-    @TableField("menu_id")
-    private Long menuId;
+    @TableId(value = "menu_id", type = IdType.INPUT)
+    private Integer menuId;
     
     /**
-     * 食材名称
+     * 食材ID
+     * 关联ingredient表的主键
      */
-    private String name;
-    
+    @TableId(value = "ingredient_id", type = IdType.INPUT)
+    private Integer ingredientId;
+
     /**
      * 食材数量
      */
-    private String quantity;
+    private Integer quantity;
     
     /**
      * 计量单位

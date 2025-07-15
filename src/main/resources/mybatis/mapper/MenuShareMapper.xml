@@ -3,24 +3,23 @@
 <mapper namespace="com.menu.menu.mapper.MenuShareMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.menu.menu.entity.MenuShare">
-        <id column="id" property="id"/>
-        <result column="menu_id" property="menuId"/>
-        <result column="user_id" property="userId"/>
+        <id column="menu_id" property="menuId"/>
+        <id column="user_id" property="userId"/>
         <result column="share_user_id" property="shareUserId"/>
         <result column="share_time" property="shareTime"/>
         <result column="status" property="status"/>
-        <result column="created_time" property="createdTime"/>
-        <result column="updated_time" property="updatedTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, menu_id, user_id, share_user_id, share_time, status, created_time, updated_time
+        menu_id, user_id, share_user_id, share_time, status, create_time, update_time
     </sql>
 
-    <!-- 根据ID查询 -->
+    <!-- 根据复合主键查询 -->
     <select id="selectById" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from menu_share where id = #{id}
+        select <include refid="Base_Column_List"/> from menu_share where menu_id = #{menuId} and user_id = #{userId}
     </select>
 
     <!-- 根据菜单ID查询 -->
@@ -35,24 +34,22 @@
 
     <!-- 新增 -->
     <insert id="insert" parameterType="com.menu.menu.entity.MenuShare">
-        insert into menu_share (menu_id, user_id, share_user_id, share_time, status, created_time, updated_time)
+        insert into menu_share (menu_id, user_id, share_user_id, share_time, status, create_time, update_time)
         values (#{menuId}, #{userId}, #{shareUserId}, now(), #{status}, now(), now())
     </insert>
 
     <!-- 更新 -->
     <update id="updateById" parameterType="com.menu.menu.entity.MenuShare">
         update menu_share
-        set menu_id = #{menuId},
-            user_id = #{userId},
-            share_user_id = #{shareUserId},
+        set share_user_id = #{shareUserId},
             share_time = #{shareTime},
             status = #{status},
-            updated_time = now()
-        where id = #{id}
+            update_time = now()
+        where menu_id = #{menuId} and user_id = #{userId}
     </update>
 
     <!-- 删除 -->
     <delete id="deleteById">
-        delete from menu_share where id = #{id}
+        delete from menu_share where menu_id = #{menuId} and user_id = #{userId}
     </delete>
 </mapper>

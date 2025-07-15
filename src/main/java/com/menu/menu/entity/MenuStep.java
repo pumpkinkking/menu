@@ -14,24 +14,25 @@ import lombok.Data;
 @TableName("menu_step")
 public class MenuStep {
     /**
-     * 步骤ID
-     * 自增主键
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-    
-    /**
      * 餐单ID
      * 关联menu表的主键
      */
-    @TableField("menu_id")
-    private Long menuId;
+    @TableId(value = "menu_id", type = IdType.INPUT)
+    private Integer menuId;
     
     /**
-     * 步骤内容
+     * 步骤序号
+     * 步骤的顺序编号
+     */
+    @TableId(value = "step_id", type = IdType.INPUT)
+    private Integer stepId;
+
+    /**
+     * 步骤描述
      * 烹饪步骤的文字描述
      */
-    private String content;
+    @TableField("step_desc")
+    private String stepDesc;
     
     /**
      * 步骤图片URL

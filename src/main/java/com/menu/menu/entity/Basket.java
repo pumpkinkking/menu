@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 public class Basket implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "basket_id", type = IdType.AUTO)
+    private Integer basketId;
 
     @TableField("user_id")
-    private Long userId;
+    private String userId;
 
     @TableField("ingredient_id")
-    private Long ingredientId;
+    private Integer ingredientId;
 
     private Integer quantity;
 
@@ -31,12 +31,12 @@ public class Basket implements Serializable {
     private LocalDateTime updateTime;
 
     // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
-    public Long getIngredientId() { return ingredientId; }
-    public void setIngredientId(Long ingredientId) { this.ingredientId = ingredientId; }
+    public Integer getBasketId() { return basketId; }
+    public void setBasketId(Integer basketId) { this.basketId = basketId; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public Integer getIngredientId() { return ingredientId; }
+    public void setIngredientId(Integer ingredientId) { this.ingredientId = ingredientId; }
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
     public String getUnit() { return unit; }

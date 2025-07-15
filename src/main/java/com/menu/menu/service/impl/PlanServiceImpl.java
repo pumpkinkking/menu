@@ -20,10 +20,11 @@ public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements Pl
     }
 
     @Override
-    public boolean createPlan(Plan plan) {
+    public Long createPlan(Plan plan) {
         plan.setCreateTime(new Date());
         plan.setUpdateTime(new Date());
-        return save(plan);
+        planMapper.insert(plan);
+        return plan.getPlanId();
     }
 
     @Override

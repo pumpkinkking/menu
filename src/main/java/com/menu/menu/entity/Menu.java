@@ -18,13 +18,14 @@ public class Menu {
      * 餐单ID
      * 自增主键
      */
-    @TableId(type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "menu_id", type = IdType.AUTO)
+    private Integer menuId;
     
     /**
      * 餐单名称
      */
-    private String name;
+    @TableField("menu_name")
+    private String menuName;
     
     /**
      * 餐单描述
@@ -48,14 +49,14 @@ public class Menu {
      * 关联分类表的主键
      */
     @TableField("category_id")
-    private Long categoryId;
+    private String categoryId;
     
     /**
      * 用户ID
      * 创建者ID，关联用户表的主键
      */
     @TableField("user_id")
-    private Long userId;
+    private String userId;
     
     /**
      * 查看次数
@@ -93,6 +94,8 @@ public class Menu {
      */
     @TableField("update_time")
     private LocalDateTime updateTime;
+    
+
     
     /**
      * 删除标志

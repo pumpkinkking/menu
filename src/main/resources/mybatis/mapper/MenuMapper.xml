@@ -3,26 +3,28 @@
 <mapper namespace="com.menu.menu.mapper.MenuMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.menu.menu.entity.Menu">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="description" property="description"/>
-        <result column="category" property="category"/>
-        <result column="cooking_time" property="cookingTime"/>
-        <result column="difficulty" property="difficulty"/>
-        <result column="status" property="status"/>
+        <id column="menu_id" property="menuId"/>
         <result column="user_id" property="userId"/>
-        <result column="created_time" property="createdTime"/>
-        <result column="updated_time" property="updatedTime"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="description" property="description"/>
+        <result column="cover_image_url" property="coverImageUrl"/>
+        <result column="thumbnail_url" property="thumbnailUrl"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="collect_count" property="collectCount"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, description, category, cooking_time, difficulty, status, user_id, created_time, updated_time
+        menu_id, user_id, menu_name, description, cover_image_url, thumbnail_url, category_id, view_count, collect_count, is_deleted, create_time, update_time
     </sql>
 
     <!-- 根据ID查询 -->
     <select id="selectById" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from menu where id = #{id}
+        select <include refid="Base_Column_List"/> from menu where menu_id = #{menuId}
     </select>
 
     <!-- 查询所有 -->
@@ -35,33 +37,30 @@
         select <include refid="Base_Column_List"/> from menu where user_id = #{userId}
     </select>
 
-    <!-- 根据分类查询 -->
-    <select id="selectByCategory" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/> from menu where category = #{category}
-    </select>
-
     <!-- 新增 -->
     <insert id="insert" parameterType="com.menu.menu.entity.Menu">
-        insert into menu (name, description, category, cooking_time, difficulty, status, user_id, created_time, updated_time)
-        values (#{name}, #{description}, #{category}, #{cookingTime}, #{difficulty}, #{status}, #{userId}, now(), now())
+        insert into menu (user_id, menu_name, description, cover_image_url, thumbnail_url, category_id, view_count, collect_count, is_deleted, create_time, update_time)
+        values (#{userId}, #{menuName}, #{description}, #{coverImageUrl}, #{thumbnailUrl}, #{categoryId}, 0, 0, 0, now(), now())
     </insert>
 
     <!-- 更新 -->
     <update id="updateById" parameterType="com.menu.menu.entity.Menu">
         update menu
-        set name = #{name},
+        set user_id = #{userId},
+            menu_name = #{menuName},
             description = #{description},
-            category = #{category},
-            cooking_time = #{cookingTime},
-            difficulty = #{difficulty},
-            status = #{status},
-            user_id = #{userId},
-            updated_time = now()
-        where id = #{id}
+            cover_image_url = #{coverImageUrl},
+            thumbnail_url = #{thumbnailUrl},
+            category_id = #{categoryId},
+            view_count = #{viewCount},
+            collect_count = #{collectCount},
+            is_deleted = #{isDeleted},
+            update_time = now()
+        where menu_id = #{menuId}
     </update>
 
     <!-- 删除 -->
     <delete id="deleteById">
-        delete from menu where id = #{id}
+        delete from menu where menu_id = #{menuId}
     </delete>
 </mapper>

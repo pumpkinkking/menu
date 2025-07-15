@@ -5,7 +5,7 @@ import com.menu.menu.vo.OrderVO;
 import java.util.List;
 
 public interface OrderService {
-    List<OrderVO> getOrdersByUserId(Long userId);
-    Long createOrder(OrderDTO orderDTO, Long userId);
-    OrderVO getOrderDetail(Long id, Long userId);
+    List<OrderVO> getOrdersByUserId(String userId);
+    Integer createOrder(OrderDTO orderDTO, String userId);
+    OrderVO getOrderDetail(String id, String userId);
 }

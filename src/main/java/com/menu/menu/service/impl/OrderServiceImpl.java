@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    public List<OrderVO> getOrdersByUserId(Long userId) {
+    public List<OrderVO> getOrdersByUserId(String userId) {
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         List<Order> orders = orderMapper.selectList(queryWrapper);
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long createOrder(OrderDTO orderDTO, Long userId) {
+    public Integer createOrder(OrderDTO orderDTO, String userId) {
         Order order = new Order();
         BeanUtils.copyProperties(orderDTO, order);
         order.setUserId(userId);
@@ -38,11 +38,11 @@ public class OrderServiceImpl implements OrderService {
         order.setCreateTime(LocalDateTime.now());
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.insert(order);
-        return order.getId();
+        return order.getOrderId();
     }
 
     @Override
-    public OrderVO getOrderDetail(Long id, Long userId) {
+    public OrderVO getOrderDetail(String id, String userId) {
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", id).eq("user_id", userId);
         Order order = orderMapper.selectOne(queryWrapper);
