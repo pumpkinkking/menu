@@ -11,17 +11,17 @@ public class OrderItemVO {
     /**
      * 订单项ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 订单ID
      */
-    private Long orderId;
+    private Integer orderId;
 
     /**
      * 菜品ID
      */
-    private Long dishId;
+    private Integer dishId;
 
     /**
      * 菜品名称

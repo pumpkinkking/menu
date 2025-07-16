@@ -17,7 +17,7 @@ public interface UserService {
      * @param userId 用户ID
      * @return 登录结果，包含token和用户ID
      */
-    LoginVO phoneLogin(String encryptedData, String iv, Long userId);
+    LoginVO phoneLogin(String encryptedData, String iv, String userId);
 
     /**
      * 更新用户名称
@@ -25,7 +25,7 @@ public interface UserService {
      * @param username 新用户名
      * @return 是否更新成功
      */
-    boolean updateUsername(Long userId, String username);
+    boolean updateUsername(String userId, String username);
 
     /**
      * 上传用户头像
@@ -39,7 +39,7 @@ public interface UserService {
      * @param avatarUrl 头像URL
      * @return 是否更新成功
      */
-    boolean updateAvatar(Long userId, String avatarUrl);
+    boolean updateAvatar(String userId, String avatarUrl);
 
-    void getUserById(Long id);
+    void getUserById(String id);
 }

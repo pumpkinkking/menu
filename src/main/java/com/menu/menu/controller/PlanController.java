@@ -2,7 +2,7 @@ package com.menu.menu.controller;
 
 import com.menu.menu.entity.Plan;
 import com.menu.menu.service.PlanService;
-import com.menu.menu.util.Result;
+import com.menu.menu.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -30,26 +30,26 @@ public class PlanController {
      * 创建新计划
      */
     @PostMapping("/createPlan")
-    public Result createPlan(@Valid @RequestBody Plan plan) {
-        boolean success = planService.createPlan(plan);
-        return success ? Result.success("计划创建成功") : Result.error("计划创建失败");
+    public Result<Integer> createPlan(@Valid @RequestBody Plan plan) {
+        Integer planId = planService.createPlan(plan);
+        return Result.success(planId);
     }
 
     /**
      * 更新计划
      */
     @PutMapping("/{id}")
-    public Result updatePlan(@PathVariable Long id, @Valid @RequestBody Plan plan) {
-        boolean success = planService.updatePlan(id, plan);
-        return success ? Result.success("计划更新成功") : Result.error("计划更新失败");
+    public Result<Boolean> updatePlan(@PathVariable Integer id, @Valid @RequestBody Plan plan) {
+        Boolean planId = planService.updatePlan(id,plan);
+        return Result.success(planId);
     }
 
     /**
      * 删除计划
      */
     @DeleteMapping("/{id}")
-    public Result deletePlan(@PathVariable Long id) {
-        boolean success = planService.deletePlan(id);
-        return success ? Result.success("计划删除成功") : Result.error("计划删除失败");
+    public Result<Boolean> deletePlan(@PathVariable Integer id) {
+        Boolean planId = planService.deletePlan(id);
+        return Result.success(planId);
     }
 }

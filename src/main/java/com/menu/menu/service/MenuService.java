@@ -17,17 +17,17 @@ public interface MenuService extends IService<Menu> {
      * 上传餐单
      * @param menuDTO 餐单数据传输对象，包含餐单基本信息、食材和步骤
      * @param userId 创建者用户ID
-     * @return Long 新创建餐单的ID
+     * @return Integer 新创建餐单的ID
      */
-    Long uploadMenu(MenuDTO menuDTO, Long userId);
+    Integer uploadMenu(MenuDTO menuDTO, String userId);
     
     /**
      * 批量上传餐单
      * @param menuDTOs 餐单数据传输对象列表
      * @param userId 创建者用户ID
-     * @return List<Long> 新创建餐单的ID列表
+     * @return List<Integer> 新创建餐单的ID列表
      */
-    List<Long> batchUploadMenus(List<MenuDTO> menuDTOs, Long userId);
+    List<Integer> batchUploadMenus(List<MenuDTO> menuDTOs, String userId);
     
     /**
      * 按分类浏览餐单
@@ -36,7 +36,7 @@ public interface MenuService extends IService<Menu> {
      * @param pageSize 每页条数
      * @return IPage<MenuVO> 分页的餐单视图对象列表
      */
-    IPage<MenuVO> getMenusByCategory(Long categoryId, int pageNum, int pageSize);
+    IPage<MenuVO> getMenusByCategory(Integer categoryId, int pageNum, int pageSize);
     
     /**
      * 按热门程度浏览餐单
@@ -69,7 +69,7 @@ public interface MenuService extends IService<Menu> {
      * @param userId 用户ID（可为null，未登录用户）
      * @return MenuDetailVO 包含食材和步骤的餐单详情视图对象
      */
-    MenuDetailVO getMenuDetail(Long menuId, Long userId);
+    MenuDetailVO getMenuDetail(Integer menuId, String userId);
     
     /**
      * 收藏餐单
@@ -77,7 +77,7 @@ public interface MenuService extends IService<Menu> {
      * @param userId 用户ID
      * @return boolean 收藏是否成功
      */
-    boolean collectMenu(Long menuId, Long userId);
+    boolean collectMenu(Integer menuId, String userId);
     
     /**
      * 取消收藏餐单
@@ -85,7 +85,7 @@ public interface MenuService extends IService<Menu> {
      * @param userId 用户ID
      * @return boolean 取消收藏是否成功
      */
-    boolean cancelCollectMenu(Long menuId, Long userId);
+    boolean cancelCollectMenu(Integer menuId, String userId);
     
     /**
      * 获取用户收藏的餐单
@@ -94,7 +94,7 @@ public interface MenuService extends IService<Menu> {
      * @param pageSize 每页条数
      * @return IPage<MenuVO> 分页的用户收藏餐单视图对象列表
      */
-    IPage<MenuVO> getUserCollectedMenus(Long userId, int pageNum, int pageSize);
+    IPage<MenuVO> getUserCollectedMenus(String userId, int pageNum, int pageSize);
     
     /**
      * 分享餐单
@@ -103,7 +103,7 @@ public interface MenuService extends IService<Menu> {
      * @param channel 分享渠道（wechat_friend:微信好友,wechat_moments:朋友圈）
      * @return boolean 分享是否成功
      */
-    boolean shareMenu(Long menuId, Long userId, String channel);
+    boolean shareMenu(Integer menuId, String userId, String channel);
     
     /**
      * 获取用户创建的餐单
@@ -112,5 +112,5 @@ public interface MenuService extends IService<Menu> {
      * @param pageSize 每页条数
      * @return IPage<MenuVO> 分页的用户创建餐单视图对象列表
      */
-    IPage<MenuVO> getUserCreatedMenus(Long userId, int pageNum, int pageSize);
+    IPage<MenuVO> getUserCreatedMenus(String userId, int pageNum, int pageSize);
 }

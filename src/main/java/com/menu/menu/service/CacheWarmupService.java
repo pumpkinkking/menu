@@ -45,7 +45,7 @@ public class CacheWarmupService {
             List<User> hotUsers = userMapper.selectHotUsers(100); // 需要在UserMapper中添加该方法
             for (User user : hotUsers) {
                 // 调用带缓存注解的方法，将数据加载到缓存
-                userService.getUserById(user.getId());
+                userService.getUserById(user.getUserId());
             }
             System.out.println("预热热门用户数据完成，共加载: " + hotUsers.size() + "条记录");
         } catch (Exception e) {

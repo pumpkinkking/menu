@@ -8,12 +8,12 @@ import java.util.List;
 
 @Data
 public class MenuDetailVO {
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private String coverImageUrl;
-    private Long categoryId;
-    private Long userId;
+    private Integer categoryId;
+    private String userId;
     private Integer viewCount;
     private Integer collectCount;
     private Integer shareCount;

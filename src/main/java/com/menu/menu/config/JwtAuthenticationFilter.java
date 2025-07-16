@@ -47,4 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        // 排除登录接口，不进行JWT验证
+        return path.startsWith("/user/wechatLogin");
+    }
 }

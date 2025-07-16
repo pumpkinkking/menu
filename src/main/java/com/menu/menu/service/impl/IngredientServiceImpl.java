@@ -18,25 +18,41 @@ public class IngredientServiceImpl implements IngredientService {
     @Autowired
     private IngredientMapper ingredientMapper;
 
+    /**
+     * 根据用户ID获取食材列表
+     * @param userId 用户ID
+     * @return 食材视图对象列表
+     */
     @Override
-    public List<IngredientVO> getIngredientsByUserId(Long userId) {
+    public List<IngredientVO> getIngredientsByUserId(String userId) {
         QueryWrapper<Ingredient> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         List<Ingredient> ingredients = ingredientMapper.selectList(queryWrapper);
         return ingredients.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
+    /**
+     * 添加食材
+     * @param ingredientDTO 食材数据传输对象
+     * @param userId 用户ID
+     * @return 新增食材ID
+     */
     @Override
-    public Long addIngredient(IngredientDTO ingredientDTO, Long userId) {
+    public Integer addIngredient(IngredientDTO ingredientDTO, String userId) {
         Ingredient ingredient = new Ingredient();
         BeanUtils.copyProperties(ingredientDTO, ingredient);
         ingredient.setUserId(userId);
-        ingredientMapper.insert(ingredient);
-        return ingredient.getIngredientId();
+        return ingredientMapper.insert(ingredient);
     }
 
+    /**
+     * 删除食材
+     * @param id 食材ID
+     * @param userId 用户ID
+     * @return 是否删除成功
+     */
     @Override
-    public boolean deleteIngredient(Long id, Long userId) {
+    public boolean deleteIngredient(Integer id, String userId) {
         QueryWrapper<Ingredient> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", id).eq("user_id", userId);
         int rows = ingredientMapper.delete(queryWrapper);

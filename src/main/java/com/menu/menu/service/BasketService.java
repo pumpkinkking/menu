@@ -5,7 +5,7 @@ import com.menu.menu.vo.BasketVO;
 import java.util.List;
 
 public interface BasketService {
-    List<BasketVO> getBasketItemsByUserId(Long userId);
-    Long addToBasket(BasketDTO basketDTO, Long userId);
-    boolean removeFromBasket(Long ingredientId, Long userId);
+    List<BasketVO> getBasketItemsByUserId(String userId);
+    Integer addToBasket(BasketDTO basketDTO, String userId);
+    boolean removeFromBasket(Integer ingredientId, String userId);
 }

@@ -5,8 +5,9 @@ import com.menu.menu.entity.Plan;
 import com.menu.menu.exception.BusinessException;
 import com.menu.menu.mapper.PlanMapper;
 import com.menu.menu.service.PlanService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,32 +15,32 @@ import java.util.List;
  */
 @Service
 public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements PlanService {
+    
+    @Autowired
+    private PlanMapper planMapper;
+    
     @Override
     public List<Plan> listPlans() {
         return baseMapper.selectList(null);
     }
 
     @Override
-    public Long createPlan(Plan plan) {
-        plan.setCreateTime(new Date());
-        plan.setUpdateTime(new Date());
-        planMapper.insert(plan);
-        return plan.getPlanId();
+    public Integer createPlan(Plan plan) {
+        return planMapper.insert(plan);
     }
 
     @Override
-    public boolean updatePlan(Long id, Plan plan) {
+    public Boolean updatePlan(Integer id, Plan plan) {
         Plan existingPlan = getById(id);
         if (existingPlan == null) {
             throw new BusinessException(404, "计划不存在");
         }
-        plan.setId(id);
-        plan.setUpdateTime(new Date());
+        plan.setPlanId(id);
         return updateById(plan);
     }
 
     @Override
-    public boolean deletePlan(Long id) {
+    public Boolean deletePlan(Integer id) {
         Plan existingPlan = getById(id);
         if (existingPlan == null) {
             throw new BusinessException(404, "计划不存在");

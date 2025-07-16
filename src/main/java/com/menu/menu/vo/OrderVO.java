@@ -13,7 +13,7 @@ public class OrderVO {
     /**
      * 订单ID
      */
-    private Long id;
+    private String id;
 
     /**
      * 订单编号
@@ -23,7 +23,7 @@ public class OrderVO {
     /**
      * 用户ID
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 订单日期

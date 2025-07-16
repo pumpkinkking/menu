@@ -1,46 +1,65 @@
 package com.menu.menu.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
- * 餐单食材实体类
- * 对应数据库表menu_ingredient，存储餐单所需的食材信息
+ * 菜单食材关联实体类
+ * 用于存储菜单与食材的关联关系及用量信息
  */
 @Data
 @TableName("menu_ingredient")
 public class MenuIngredient {
     /**
-     * 餐单ID
-     * 关联menu表的主键
+     * 主键ID
      */
-    @TableId(value = "menu_id", type = IdType.INPUT)
+    private Integer id;
+
+    /**
+     * 菜单ID
+     */
+    @TableField("menu_id")
     private Integer menuId;
-    
+
     /**
      * 食材ID
-     * 关联ingredient表的主键
      */
-    @TableId(value = "ingredient_id", type = IdType.INPUT)
+    @TableField("ingredient_id")
     private Integer ingredientId;
 
     /**
-     * 食材数量
+     * 食材名称
      */
-    private Integer quantity;
-    
+    @TableField("ingredient_name")
+    private String ingredientName;
+
     /**
-     * 计量单位
+     * 数量
+     */
+    private String quantity;
+
+    /**
+     * 单位
      */
     private String unit;
-    
+
     /**
-     * 排序序号
-     * 用于控制食材展示顺序
+     * 排序顺序
      */
     @TableField("sort_order")
     private Integer sortOrder;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private Date updateTime;
 }

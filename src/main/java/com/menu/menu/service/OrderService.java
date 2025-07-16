@@ -7,5 +7,5 @@ import java.util.List;
 public interface OrderService {
     List<OrderVO> getOrdersByUserId(String userId);
     Integer createOrder(OrderDTO orderDTO, String userId);
-    OrderVO getOrderDetail(String id, String userId);
+    OrderVO getOrderDetail(Integer id, String userId);
 }

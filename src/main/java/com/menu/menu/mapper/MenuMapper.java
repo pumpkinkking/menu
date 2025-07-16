@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface MenuMapper extends BaseMapper<Menu> {
-    IPage<Menu> selectByCategory(Page<Menu> page, @Param("categoryId") Long categoryId);
+    IPage<Menu> selectByCategory(Page<Menu> page, @Param("categoryId") Integer categoryId);
     IPage<Menu> selectByHot(Page<Menu> page);
     IPage<Menu> selectByNewest(Page<Menu> page);
     IPage<Menu> search(Page<Menu> page, @Param("keyword") String keyword);
-    List<Menu> selectByUserId(@Param("userId") Long userId);
-    List<Menu> selectCollectedByUserId(@Param("userId") Long userId);
+    List<Menu> selectByUserId(@Param("userId") String userId);
+    List<Menu> selectCollectedByUserId(@Param("userId") String userId);
 }

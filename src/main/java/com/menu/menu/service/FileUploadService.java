@@ -10,7 +10,7 @@ public interface FileUploadService {
      * @param fileName 文件名
      * @return 上传ID
      */
-    String initializeUpload(Long userId, String fileName);
+    String initializeUpload(String userId, String fileName);
 
     /**
      * 上传文件分片

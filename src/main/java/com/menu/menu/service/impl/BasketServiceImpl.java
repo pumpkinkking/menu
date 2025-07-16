@@ -19,16 +19,27 @@ public class BasketServiceImpl implements BasketService {
     @Autowired
     private BasketMapper basketMapper;
 
+    /**
+     * 根据用户ID获取购物篮项目
+     * @param userId 用户ID
+     * @return 购物篮视图对象列表
+     */
     @Override
-    public List<BasketVO> getBasketItemsByUserId(Long userId) {
+    public List<BasketVO> getBasketItemsByUserId(String userId) {
         QueryWrapper<Basket> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         List<Basket> basketItems = basketMapper.selectList(queryWrapper);
         return basketItems.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
+    /**
+     * 添加项目到购物篮
+     * @param basketDTO 购物篮数据传输对象
+     * @param userId 用户ID
+     * @return 购物篮项目ID
+     */
     @Override
-    public Long addToBasket(BasketDTO basketDTO, Long userId) {
+    public Integer addToBasket(BasketDTO basketDTO, String userId) {
         // 检查是否已存在该食材，存在则更新数量
         QueryWrapper<Basket> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId)
@@ -52,8 +63,14 @@ public class BasketServiceImpl implements BasketService {
         return basket.getBasketId();
     }
 
+    /**
+     * 从购物篮移除项目
+     * @param ingredientId 食材ID
+     * @param userId 用户ID
+     * @return 是否移除成功
+     */
     @Override
-    public boolean removeFromBasket(Long ingredientId, Long userId) {
+    public boolean removeFromBasket(Integer ingredientId, String userId) {
         QueryWrapper<Basket> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId)
                     .eq("ingredient_id", ingredientId);

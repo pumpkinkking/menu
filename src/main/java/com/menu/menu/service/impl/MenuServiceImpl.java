@@ -46,11 +46,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * 事务性操作，保存餐单基本信息、食材和步骤
      * @param menuDTO 餐单数据传输对象，包含基本信息、食材列表和步骤列表
      * @param userId 创建者用户ID
-     * @return Long 新创建餐单的ID
+     * @return Integer 新创建餐单的ID
      */
     @Override
     @Transactional
-    public Long uploadMenu(MenuDTO menuDTO, Long userId) {
+    public Integer uploadMenu(MenuDTO menuDTO, String userId) {
         // 保存餐单基本信息
         Menu menu = new Menu();
         BeanUtils.copyProperties(menuDTO, menu);
@@ -70,7 +70,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             List<MenuIngredient> ingredients = menuDTO.getIngredients().stream().map(ingredientDTO -> {
                 MenuIngredient ingredient = new MenuIngredient();
                 BeanUtils.copyProperties(ingredientDTO, ingredient);
-                ingredient.setMenuId(menu.getId());
+                ingredient.setMenuId(menu.getMenuId());
                 return ingredient;
             }).collect(Collectors.toList());
             menuIngredientMapper.batchInsert(ingredients);
@@ -81,7 +81,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             List<MenuStep> steps = menuDTO.getSteps().stream().map(stepDTO -> {
                 MenuStep step = new MenuStep();
                 BeanUtils.copyProperties(stepDTO, step);
-                step.setMenuId(menu.getId());
+                // 将旧方法调用替换为实体类规范方法
+                step.setMenuId(menu.getMenuId());  // 原方法getId()已弃用
                 return step;
             }).collect(Collectors.toList());
             menuStepMapper.batchInsert(steps);
@@ -99,10 +100,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional
-    public List<Long> batchUploadMenus(List<MenuDTO> menuDTOs, Long userId) {
-        List<Long> menuIds = new ArrayList<>();
+    public List<Integer> batchUploadMenus(List<MenuDTO> menuDTOs, String userId) {
+        List<Integer> menuIds = new ArrayList<>();
         for (MenuDTO menuDTO : menuDTOs) {
-            Long menuId = uploadMenu(menuDTO, userId);
+            Integer menuId = uploadMenu(menuDTO, userId);
             menuIds.add(menuId);
         }
         return menuIds;
@@ -116,7 +117,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return IPage<MenuVO> 分页的餐单视图对象列表
      */
     @Override
-    public IPage<MenuVO> getMenusByCategory(Long categoryId, int pageNum, int pageSize) {
+    public IPage<MenuVO> getMenusByCategory(Integer categoryId, int pageNum, int pageSize) {
         Page<Menu> page = new Page<>(pageNum, pageSize);
         IPage<Menu> menuPage = menuMapper.selectByCategory(page, categoryId);
         return convertToMenuVOPage(menuPage);
@@ -173,7 +174,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return MenuDetailVO 餐单详情视图对象，包含收藏状态
      */
     @Override
-    public MenuDetailVO getMenuDetail(Long menuId, Long userId) {
+    public MenuDetailVO getMenuDetail(Integer menuId, String userId) {
         // 更新浏览次数
         Menu menu = menuMapper.selectById(menuId);
         if (menu == null || menu.getIsDeleted() == 1) {
@@ -212,7 +213,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional
-    public boolean collectMenu(Long menuId, Long userId) {
+    public boolean collectMenu(Integer menuId, String userId) {
         // 检查是否已收藏
         MenuCollection existing = menuCollectionMapper.selectByUserIdAndMenuId(userId, menuId);
         if (existing != null) {
@@ -234,6 +235,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return true;
     }
 
+
     /**
      * 取消收藏餐单
      * 删除收藏记录并更新餐单收藏次数
@@ -243,7 +245,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional
-    public boolean cancelCollectMenu(Long menuId, Long userId) {
+    public boolean cancelCollectMenu(Integer menuId, String userId) {
         // 删除收藏记录
         int rows = menuCollectionMapper.deleteByUserIdAndMenuId(userId, menuId);
         if (rows <= 0) {
@@ -258,6 +260,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return true;
     }
 
+
     /**
      * 获取用户收藏的餐单
      * 查询用户收藏的所有餐单并分页返回
@@ -267,7 +270,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return IPage<MenuVO> 分页的用户收藏餐单视图对象列表
      */
     @Override
-    public IPage<MenuVO> getUserCollectedMenus(Long userId, int pageNum, int pageSize) {
+    public IPage<MenuVO> getUserCollectedMenus(String userId, int pageNum, int pageSize) {
         Page<Menu> page = new Page<>(pageNum, pageSize);
         List<Menu> menus = menuMapper.selectCollectedByUserId(userId);
         Page<Menu> menuPage = new Page<>(pageNum, pageSize);
@@ -275,6 +278,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         menuPage.setTotal(menus.size());
         return convertToMenuVOPage(menuPage);
     }
+
 
     /**
      * 分享餐单
@@ -286,7 +290,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      */
     @Override
     @Transactional
-    public boolean shareMenu(Long menuId, Long userId, String platform) {
+    public boolean shareMenu(Integer menuId, String userId, String platform) {
         // 检查餐单是否存在
         Menu menu = menuMapper.selectById(menuId);
         if (menu == null || menu.getIsDeleted() == 1) {
@@ -316,7 +320,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
      * @return IPage<MenuVO> 分页的用户创建餐单视图对象列表
      */
     @Override
-    public IPage<MenuVO> getUserCreatedMenus(Long userId, int pageNum, int pageSize) {
+    public IPage<MenuVO> getUserCreatedMenus(String userId, int pageNum, int pageSize) {
         Page<Menu> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId)

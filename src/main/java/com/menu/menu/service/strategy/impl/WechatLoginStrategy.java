@@ -32,15 +32,14 @@ public class WechatLoginStrategy implements LoginStrategy {
             User user = userMapper.selectOne(new QueryWrapper<User>().eq("openid", openid));
             if (user == null) {
                 user = new User();
-                user.setOpenid(openid);
-                user.setSessionKey(session.getSessionKey());
+                user.setOpenId(openid);
                 userMapper.insert(user);
             }
 
             String token = UUID.randomUUID().toString();
             LoginVO loginVO = new LoginVO();
             loginVO.setToken(token);
-            loginVO.setUserId(user.getId());
+            loginVO.setUserId(user.getUserId());
             return loginVO;
         } catch (WxErrorException e) {
             throw new RuntimeException("微信登录失败: " + e.getMessage());

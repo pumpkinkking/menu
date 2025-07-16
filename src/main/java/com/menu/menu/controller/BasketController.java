@@ -3,12 +3,13 @@ package com.menu.menu.controller;
 import com.menu.menu.common.Result;
 import com.menu.menu.dto.BasketDTO;
 import com.menu.menu.service.BasketService;
+import com.menu.menu.util.UserContextHolder;
 import com.menu.menu.vo.BasketVO;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 @RestController
@@ -19,32 +20,29 @@ public class BasketController {
     @Autowired
     private BasketService basketService;
 
-    @GetMapping("/getBasketItems")
-    @Operation(summary = "获取菜篮子列表")
-    public Result<List<BasketVO>> getBasketItems(HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
-        List<BasketVO> basketItems = basketService.getBasketItemsByUserId(userId);
-        return Result.success(basketItems);
+    @GetMapping("/getBasketList")
+    @Operation(summary = "获取购物篮列表")
+    public Result<List<BasketVO>> getBasketList() {
+        String userId = UserContextHolder.getUserId();
+        List<BasketVO> basketList = basketService.getBasketItemsByUserId(userId);
+        return Result.success(basketList);
     }
 
     @PostMapping("/addToBasket")
-    @Operation(summary = "添加食材到菜篮子")
-    public Result<Long> addToBasket(@RequestBody BasketDTO basketDTO, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
-        Long basketId = basketService.addToBasket(basketDTO, userId);
-        return Result.success(basketId);
+    @Operation(summary = "添加商品到购物篮")
+    public Result<Void> addToBasket(@RequestBody BasketDTO basketDTO) {
+        String userId = UserContextHolder.getUserId();
+        basketService.addToBasket(basketDTO, userId);
+        return Result.success();
     }
 
-    @DeleteMapping("/{ingredientId}")
+  
+
+    @DeleteMapping("removeFromBasket/{ingredientId}")
     @Operation(summary = "从菜篮子移除食材")
-    public Result<Boolean> removeFromBasket(@PathVariable Long ingredientId, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
-        boolean success = basketService.removeFromBasket(ingredientId, userId);
-        return Result.success(success);
-    }
-
-    private Long getCurrentUserId(HttpServletRequest request) {
-        // 实际项目中从token或session获取
-        return 1L;
+    public Result<Void> removeFromBasket(@PathVariable Integer ingredientId) {
+        String userId = UserContextHolder.getUserId();
+        basketService.removeFromBasket(ingredientId, userId);
+        return Result.success();
     }
 }

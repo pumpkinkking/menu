@@ -5,6 +5,7 @@ import com.menu.menu.common.Result;
 import com.menu.menu.dto.MenuDTO;
 import com.menu.menu.service.FileUploadService;
 import com.menu.menu.service.MenuService;
+import com.menu.menu.util.UserContextHolder;
 import com.menu.menu.vo.MenuDetailVO;
 import com.menu.menu.vo.MenuVO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,7 +44,7 @@ public class MenuController {
     @PostMapping("/image/initialize")
     @Operation(summary = "初始化菜单图片上传")
     public Result<String> initializeMenuImageUpload(
-            @RequestParam Long userId,
+            @RequestParam String userId,
             @RequestParam String fileName) {
         String uploadId = fileUploadService.initializeUpload(userId, fileName);
         stringRedisTemplate.opsForValue().set("upload:menu:" + uploadId, userId.toString(), 24, TimeUnit.HOURS);
@@ -78,30 +79,24 @@ public class MenuController {
     }
 
     /**
-     * 上传餐单
-     * @param menuDTO 餐单数据传输对象，包含餐单名称、描述、食材清单、烹饪步骤等信息
-     * @param request HTTP请求对象，用于获取当前登录用户ID
-     * @return Result<Long> 包含新上传餐单ID的成功响应
+     * 上传菜单
      */
-    @PostMapping
-    @Operation(summary = "上传餐单")
-    public Result<Long> uploadMenu(@RequestBody MenuDTO menuDTO, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request); // 从请求中获取当前登录用户ID
-        Long menuId = menuService.uploadMenu(menuDTO, userId);
+    @PostMapping("/upload")
+    @Operation(summary = "上传菜单")
+    public Result<Integer> uploadMenu(@RequestBody MenuDTO menuDTO) {
+        String userId = UserContextHolder.getUserId();
+        Integer menuId = menuService.uploadMenu(menuDTO, userId);
         return Result.success(menuId);
     }
 
     /**
-     * 批量上传餐单
-     * @param menuDTOs 餐单数据传输对象列表
-     * @param request HTTP请求对象，用于获取当前登录用户ID
-     * @return Result<List<Long>> 包含多个新上传餐单ID的成功响应
+     * 批量上传菜单
      */
-    @PostMapping("/batch")
-    @Operation(summary = "批量上传餐单")
-    public Result<List<Long>> batchUploadMenus(@RequestBody List<MenuDTO> menuDTOs, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
-        List<Long> menuIds = menuService.batchUploadMenus(menuDTOs, userId);
+    @PostMapping("/batchUpload")
+    @Operation(summary = "批量上传菜单")
+    public Result<List<Integer>> batchUploadMenus(@RequestBody List<MenuDTO> menuDTOs) {
+        String userId = UserContextHolder.getUserId();
+        List<Integer> menuIds = menuService.batchUploadMenus(menuDTOs, userId);
         return Result.success(menuIds);
     }
 
@@ -115,7 +110,7 @@ public class MenuController {
     @GetMapping("/category/{categoryId}")
     @Operation(summary = "按分类浏览餐单")
     public Result<IPage<MenuVO>> getMenusByCategory(
-            @PathVariable Long categoryId,
+            @PathVariable Integer categoryId,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
         IPage<MenuVO> menus = menuService.getMenusByCategory(categoryId, pageNum, pageSize);
@@ -177,8 +172,8 @@ public class MenuController {
      */
     @GetMapping("/{id}")
     @Operation(summary = "获取餐单详情")
-    public Result<MenuDetailVO> getMenuDetail(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request); // 可能为null（未登录用户）
+    public Result<MenuDetailVO> getMenuDetail(@PathVariable Integer id, HttpServletRequest request) {
+        String userId = getCurrentUserId(request); // 可能为null（未登录用户）
         MenuDetailVO detailVO = menuService.getMenuDetail(id, userId);
         return Result.success(detailVO);
     }
@@ -191,8 +186,8 @@ public class MenuController {
      */
     @PostMapping("/{id}/collect")
     @Operation(summary = "收藏餐单")
-    public Result<Boolean> collectMenu(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
+    public Result<Boolean> collectMenu(@PathVariable Integer id, HttpServletRequest request) {
+        String userId = getCurrentUserId(request);
         boolean success = menuService.collectMenu(id, userId);
         return Result.success(success);
     }
@@ -205,8 +200,8 @@ public class MenuController {
      */
     @DeleteMapping("/{id}/collect")
     @Operation(summary = "取消收藏餐单")
-    public Result<Boolean> cancelCollectMenu(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
+    public Result<Boolean> cancelCollectMenu(@PathVariable Integer id, HttpServletRequest request) {
+        String userId = getCurrentUserId(request);
         boolean success = menuService.cancelCollectMenu(id, userId);
         return Result.success(success);
     }
@@ -224,7 +219,7 @@ public class MenuController {
             HttpServletRequest request,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Long userId = getCurrentUserId(request);
+        String userId = getCurrentUserId(request);
         IPage<MenuVO> menus = menuService.getUserCollectedMenus(userId, pageNum, pageSize);
         return Result.success(menus);
     }
@@ -239,10 +234,10 @@ public class MenuController {
     @PostMapping("/{id}/share")
     @Operation(summary = "分享餐单")
     public Result<Boolean> shareMenu(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestParam String channel,
             HttpServletRequest request) {
-        Long userId = getCurrentUserId(request);
+        String userId = getCurrentUserId(request);
         boolean success = menuService.shareMenu(id, userId, channel);
         return Result.success(success);
     }
@@ -260,7 +255,7 @@ public class MenuController {
             HttpServletRequest request,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Long userId = getCurrentUserId(request);
+        String userId = getCurrentUserId(request);
         IPage<MenuVO> menus = menuService.getUserCreatedMenus(userId, pageNum, pageSize);
         return Result.success(menus);
     }
@@ -271,8 +266,8 @@ public class MenuController {
      * @param request HTTP请求对象
      * @return Long 当前登录用户的ID，示例中返回固定值1L
      */
-    private Long getCurrentUserId(HttpServletRequest request) {
+    private String getCurrentUserId(HttpServletRequest request) {
         // 此处为示例，实际应从token或session中获取
-        return 1L;
+        return "qly";
     }
 }

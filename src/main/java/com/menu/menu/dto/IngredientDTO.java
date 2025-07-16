@@ -3,7 +3,9 @@ package com.menu.menu.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 @Schema(description = "食材数据传输对象")
 public class IngredientDTO {
 
@@ -24,16 +26,4 @@ public class IngredientDTO {
 
     @Schema(description = "新鲜度")
     private String freshness;
-
-    // Getters and setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Integer getQuantity() { return quantity; }
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-    public String getFreshness() { return freshness; }
-    public void setFreshness(String freshness) { this.freshness = freshness; }
 }

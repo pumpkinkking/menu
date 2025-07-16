@@ -8,7 +8,7 @@ public class BasketDTO {
 
     @Schema(description = "食材ID", required = true)
     @NotNull(message = "食材ID不能为空")
-    private Long ingredientId;
+    private Integer ingredientId;
 
     @Schema(description = "食材数量", required = true)
     @NotNull(message = "食材数量不能为空")
@@ -18,8 +18,8 @@ public class BasketDTO {
     private String unit;
 
     // Getters and setters
-    public Long getIngredientId() { return ingredientId; }
-    public void setIngredientId(Long ingredientId) { this.ingredientId = ingredientId; }
+    public Integer getIngredientId() { return ingredientId; }
+public void setIngredientId(Integer ingredientId) { this.ingredientId = ingredientId; }
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
     public String getUnit() { return unit; }

@@ -14,18 +14,26 @@ import java.time.LocalDateTime;
 @Data
 @TableName("menu_collection")
 public class MenuCollection {
+
+    /**
+     * 菜单收藏ID
+     * 收藏记录的唯一标识符
+     */
+    @TableId(value = "menu_collection_id", type = IdType.INPUT)
+    private Integer collectionId;
+
     /**
      * 用户ID
      * 收藏者ID，关联用户表的主键
      */
-    @TableId(value = "user_id", type = IdType.INPUT)
+    @TableField("user_id")
     private String userId;
     
     /**
      * 餐单ID
      * 被收藏餐单的ID，关联menu表的主键
      */
-    @TableId(value = "menu_id", type = IdType.INPUT)
+    @TableField("menu_id")
     private Integer menuId;
     
     /**

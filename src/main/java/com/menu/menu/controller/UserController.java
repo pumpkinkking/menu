@@ -40,7 +40,7 @@ public class UserController {
     public LoginVO phoneLogin(
             @RequestParam String encryptedData,
             @RequestParam String iv,
-            @RequestParam Long userId) {
+            @RequestParam String userId) {
         return userService.phoneLogin(encryptedData, iv, userId);
     }
 
@@ -49,7 +49,7 @@ public class UserController {
      */
     @PostMapping("/updateUsername")
     public boolean updateUsername(
-            @RequestParam Long userId,
+            @RequestParam String userId,
             @RequestParam String username) {
         return userService.updateUsername(userId, username);
     }
@@ -59,7 +59,7 @@ public class UserController {
      */
     @PostMapping("/avatar/initialize")
     public String initializeAvatarUpload(
-            @RequestParam Long userId,
+            @RequestParam String userId,
             @RequestParam String fileName) {
         String uploadId = fileUploadService.initializeUpload(userId, fileName);
         // 存储uploadId与userId的关联，有效期24小时
@@ -86,11 +86,10 @@ public class UserController {
             @RequestParam String uploadId) {
         String avatarUrl = fileUploadService.completeUpload(uploadId);
         // 获取userId并更新头像
-        String userIdStr = stringRedisTemplate.opsForValue().get("upload:avatar:" + uploadId);
-        if (userIdStr == null) {
+        String userId = stringRedisTemplate.opsForValue().get("upload:avatar:" + uploadId);
+        if (userId == null) {
             throw new com.menu.menu.exception.BusinessException("上传会话已过期");
         }
-        Long userId = Long.valueOf(userIdStr);
         userService.updateAvatar(userId, avatarUrl);
         // 删除Redis中的关联
         stringRedisTemplate.delete("upload:avatar:" + uploadId);

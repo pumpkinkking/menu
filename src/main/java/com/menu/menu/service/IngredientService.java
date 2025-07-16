@@ -5,7 +5,7 @@ import com.menu.menu.vo.IngredientVO;
 import java.util.List;
 
 public interface IngredientService {
-    List<IngredientVO> getIngredientsByUserId(Long userId);
-    Long addIngredient(IngredientDTO ingredientDTO, Long userId);
-    boolean deleteIngredient(Long id, Long userId);
+    List<IngredientVO> getIngredientsByUserId(String userId);
+    Integer addIngredient(IngredientDTO ingredientDTO, String userId);
+    boolean deleteIngredient(Integer id, String userId);
 }

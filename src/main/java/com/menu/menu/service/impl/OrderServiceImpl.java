@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderVO getOrderDetail(String id, String userId) {
+    public OrderVO getOrderDetail(Integer id, String userId) {
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", id).eq("user_id", userId);
         Order order = orderMapper.selectOne(queryWrapper);

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BasketVO {
-    private Long id; // 菜篮子项ID
-    private Long ingredientId; // 食材ID
+    private Integer id; // 菜篮子项ID
+    private Integer ingredientId; // 食材ID
     private String ingredientName; // 食材名称
     private BigDecimal quantity; // 数量
     private String unit; // 计量单位

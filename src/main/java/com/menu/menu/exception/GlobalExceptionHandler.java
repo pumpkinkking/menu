@@ -1,6 +1,6 @@
 package com.menu.menu.exception;
 
-import com.menu.menu.util.Result;
+import com.menu.menu.common.Result;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

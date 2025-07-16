@@ -19,8 +19,14 @@ public class FileUploadServiceImpl implements FileUploadService {
     @Value("${app.upload.path}")
     private String uploadPath;
 
+    /**
+     * 初始化文件上传
+     * @param userId 用户ID
+     * @param fileName 文件名
+     * @return 上传ID
+     */
     @Override
-    public String initializeUpload(Long userId, String fileName) {
+    public String initializeUpload(String userId, String fileName) {
         // 生成唯一上传ID
         String uploadId = UUID.randomUUID().toString();
         // 创建临时目录

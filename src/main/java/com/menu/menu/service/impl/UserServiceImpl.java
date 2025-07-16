@@ -8,7 +8,6 @@ import com.menu.menu.service.strategy.LoginStrategy;
 import com.menu.menu.service.strategy.LoginStrategyFactory;
 import com.menu.menu.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +25,12 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public boolean updateAvatar(Long userId, String avatarPath) {
+    public boolean updateAvatar(String userId, String avatarPath) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
-        user.setAvatar(avatarPath);
+        user.setAvatarUrl(avatarPath);
         user.setUpdateTime(LocalDateTime.now());
         return userMapper.updateById(user) > 0;
     }
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUsername(Long userId, String username) {
+    public boolean updateUsername(String userId, String username) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             throw new BusinessException("用户不存在");
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginVO phoneLogin(String encryptedData, String iv, Long userId) {
+    public LoginVO phoneLogin(String encryptedData, String iv, String userId) {
         LoginStrategy strategy = loginStrategyFactory.getStrategy("phone");
         Map<String, Object> params = new HashMap<>();
         params.put("encryptedData", encryptedData);
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void getUserById(Long userId) {
+    public void getUserById(String userId) {
         userMapper.selectById(userId);
     }
 }

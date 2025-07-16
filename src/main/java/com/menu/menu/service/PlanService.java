@@ -16,15 +16,15 @@ public interface PlanService extends IService<Plan> {
     /**
      * 创建新计划
      */
-    Long createPlan(Plan plan);
+    Integer createPlan(Plan plan);
 
     /**
      * 更新计划
      */
-    boolean updatePlan(Long id, Plan plan);
+    Boolean updatePlan(Integer id, Plan plan);
 
     /**
      * 删除计划
      */
-    boolean deletePlan(Long id);
+    Boolean deletePlan(Integer id);
 }

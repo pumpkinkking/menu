@@ -1,7 +1,7 @@
 package com.menu.menu.controller;
 
 import com.menu.menu.service.SmsService;
-import com.menu.menu.util.Result;
+import com.menu.menu.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

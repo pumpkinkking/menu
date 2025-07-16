@@ -41,15 +41,15 @@ import lombok.extern.slf4j.Slf4j;
                 throw new RuntimeException("用户不存在");
             }
 
-            WxMaPhoneNumberInfo phoneInfo = wxMaService.getUserService().getPhoneNoInfo(user.getSessionKey(), encryptedData, iv);
+            WxMaPhoneNumberInfo phoneInfo = wxMaService.getUserService().getPhoneNoInfo(sessionResult.getSessionKey(), encryptedData, iv);
             String phone = phoneInfo.getPhoneNumber();
-            user.setPhone(phone);
+            user.setPhoneNum(phone);
             userMapper.updateById(user);
 
             String token = UUID.randomUUID().toString();
             LoginVO loginVO = new LoginVO();
             loginVO.setToken(token);
-            loginVO.setUserId(user.getId());
+            loginVO.setUserId(user.getUserId());
             return loginVO;
         } catch (Exception e) {
             throw new RuntimeException("手机号登录失败: " + e.getMessage());

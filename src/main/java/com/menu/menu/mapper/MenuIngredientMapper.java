@@ -1,14 +1,20 @@
 package com.menu.menu.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.menu.menu.entity.MenuIngredient;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
-@Mapper
-public interface MenuIngredientMapper extends BaseMapper<MenuIngredient> {
-    List<MenuIngredient> selectByMenuId(@Param("menuId") Long menuId);
-    int batchInsert(@Param("ingredients") List<MenuIngredient> ingredients);
+public interface MenuIngredientMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(MenuIngredient row);
+
+    MenuIngredient selectByPrimaryKey(Integer id);
+
+    List<MenuIngredient> selectAll();
+
+    int updateByPrimaryKey(MenuIngredient row);
+
+    void batchInsert(List<MenuIngredient> ingredients);
+
+    List<MenuIngredient> selectByMenuId(Integer menuId);
 }
