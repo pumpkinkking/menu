@@ -33,7 +33,7 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
                 // 公开接口
-                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+                .requestMatchers("/api/auth/**", "/user/wechatLogin", "/swagger-ui/**", "/api-docs/**").permitAll()
                 // 其他接口需要认证
                 .anyRequest().authenticated();
 
