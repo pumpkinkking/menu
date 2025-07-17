@@ -15,8 +15,8 @@ spring:
    password: admin
 wx:
   miniapp:
-    appid: your_appid_here
-    secret: your_secret_here
+    appid: wx39b5ea1d846c3f87
+    secret: dd43667d54ac910ca9c2606b49e80825
 jwt:
   secret: 012345678901234567890123456789012345678901234567890123456789
   expiration: 86400000

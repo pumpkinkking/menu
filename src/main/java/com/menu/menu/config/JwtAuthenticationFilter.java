@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.menu.menu.util.UserContextHolder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,16 +26,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // 从请求头获取令牌
-        String token = resolveToken(request);
+        try {
+            // 从请求头获取令牌
+            String token = resolveToken(request);
 
-        // 验证令牌并设置认证信息
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication auth = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            // 验证令牌并设置认证信息
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                Authentication auth = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                
+                // 将用户名存入ThreadLocal
+                if (auth != null && auth.getName() != null) {
+                    UserContextHolder.setUserId(auth.getName());
+                }
+            }
+
+            filterChain.doFilter(request, response);
+        } finally {
+            // 清除ThreadLocal，防止内存泄漏
+            UserContextHolder.clear();
         }
-
-        filterChain.doFilter(request, response);
     }
 
     /**

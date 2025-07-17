@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Collections;
 
 /**
  * JWT令牌生成与验证工具类
@@ -99,7 +100,11 @@ import java.util.Date;
      * @return 认证信息
      */
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        //根据userId判断的
+        // UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        // return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        //无权限信息
+         Authentication auth = new UsernamePasswordAuthenticationToken(getUsername(token), null, Collections.emptyList());
+         return auth;
     }
 }
