@@ -1,11 +1,19 @@
 package com.menu.menu.controller;
 
-import com.menu.menu.entity.Plan;
-import com.menu.menu.service.PlanService;
+import com.menu.menu.util.UserContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.menu.menu.common.Result;
+import com.menu.menu.entity.Plan;
+import com.menu.menu.entity.PlanVO;
+import com.menu.menu.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -20,9 +28,17 @@ public class PlanController {
     /**
      * 获取计划列表
      */
-    @GetMapping("/listPlans")
-    public Result listPlans() {
-        List<Plan> plans = planService.listPlans();
+    /**
+     * 根据日期查询用户计划列表
+     * @param dateStr 日期字符串，格式为yyyy-MM-dd
+     * @return 计划列表
+     */
+    @GetMapping("/listPlans/{dateStr}")
+    public Result<List<PlanVO>> listPlans(@PathVariable String dateStr) {
+        // 从ThreadLocal获取当前用户ID
+        String userId = UserContextHolder.getUserId();
+        LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<PlanVO> plans = planService.selectByUserIdAndDate(userId, date);
         return Result.success(plans);
     }
 

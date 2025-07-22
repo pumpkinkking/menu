@@ -2,12 +2,15 @@ package com.menu.menu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.menu.menu.entity.Plan;
+import com.menu.menu.entity.PlanVO;
 import com.menu.menu.exception.BusinessException;
 import com.menu.menu.mapper.PlanMapper;
 import com.menu.menu.service.PlanService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -20,8 +23,8 @@ public class PlanServiceImpl extends ServiceImpl<PlanMapper, Plan> implements Pl
     private PlanMapper planMapper;
     
     @Override
-    public List<Plan> listPlans() {
-        return baseMapper.selectList(null);
+    public List<PlanVO> selectByUserIdAndDate(String userId, LocalDate date) {
+        return planMapper.selectByUserIdAndDate(userId, date);
     }
 
     @Override

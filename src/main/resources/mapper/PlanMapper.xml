@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.menu.menu.mapper.PlanMapper">
+
+    <!-- 根据用户ID和日期查询计划列表 -->
+    <select id="selectByUserIdAndDate" resultType="com.menu.menu.entity.PlanVO">
+        SELECT t.menu_type,t.order,t1.menu_name,GROUP_CONCAT(t2.ingredient_name ORDER BY t2.ingredient_name SEPARATOR ',') AS ingredients 
+        FROM plan t
+        INNER JOIN menu t1 ON t1.menu_id = t.menu_id
+        LEFT JOIN menu_ingredient t2 ON t2.menu_id = t1.menu_id
+        WHERE t.user_id = #{userId}
+          AND t.plan_date = #{date}
+        GROUP BY t.menu_type, t.order, t1.menu_name;
+    </select>
+
+</mapper>
