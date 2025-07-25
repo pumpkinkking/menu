@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -43,11 +44,11 @@ public class MenuController {
      */
     @PostMapping("/image/initialize")
     @Operation(summary = "初始化菜单图片上传")
-    public Result<String> initializeMenuImageUpload(
-            @RequestParam String userId,
-            @RequestParam String fileName) {
+    public Result<String> initializeMenuImageUpload() {
+        String userId = UserContextHolder.getUserId();
+        String fileName = "MENU" + userId + System.currentTimeMillis() 
+        + String.format("%04d", new Random().nextInt(10000));
         String uploadId = fileUploadService.initializeUpload(userId, fileName);
-        stringRedisTemplate.opsForValue().set("upload:menu:" + uploadId, userId.toString(), 24, TimeUnit.HOURS);
         return Result.success(uploadId);
     }
 

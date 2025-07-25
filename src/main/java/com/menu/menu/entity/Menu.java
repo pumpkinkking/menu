@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -32,6 +34,12 @@ public class Menu {
      */
     private String description;
     
+    /**
+     * 卡路里含量(千卡)
+     */
+    @TableField("calories")
+    private BigDecimal calories;
+
     /**
      * 封面图片URL
      */

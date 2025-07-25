@@ -41,6 +41,11 @@ public class FileUploadServiceImpl implements FileUploadService {
     public void uploadChunk(String uploadId, int chunkNumber, MultipartFile chunkFile) {
         try {
             File chunk = new File(uploadPath + File.separator + "temp" + File.separator + uploadId + File.separator + chunkNumber);
+            // 创建父目录
+            File parentDir = chunk.getParentFile();
+            if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+                throw new BusinessException("文件父目录创建失败");
+            }
             chunkFile.transferTo(chunk);
         } catch (IOException e) {
             throw new BusinessException("分片上传失败: " + e.getMessage());
